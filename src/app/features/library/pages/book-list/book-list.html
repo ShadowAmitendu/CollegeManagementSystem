@@ -1,26 +1,95 @@
-<section class="space-y-6" aria-labelledby="book-list-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="book-list-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
+<section class="space-y-8" aria-labelledby="library-title">
+  <header class="grid gap-8 border-b border-[#e6dfd8] pb-8 lg:grid-cols-[1fr_auto]">
+    <div class="max-w-3xl">
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Library</p>
+      <h1 id="library-title" class="mt-3 font-serif text-5xl font-normal leading-[1.05] text-[#141413]">
+        Book Catalog
+      </h1>
+      <p class="mt-4 text-base leading-7 text-[#3d3d3a]">
+        Search the campus library collection, inspect availability, and start issue workflows from a single surface.
+      </p>
     </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
-    >
-      Configure
-    </button>
+
+    <div class="flex flex-wrap items-start gap-3">
+      <a
+        routerLink="/library/issues"
+        class="inline-flex min-h-10 items-center rounded-lg border border-[#e6dfd8] bg-[#faf9f5] px-4 text-sm font-medium text-[#141413] hover:bg-[#f5f0e8] focus:outline-none focus:ring-2 focus:ring-[#cc785c]"
+      >
+        Issue register
+      </a>
+      @if (canManageLibrary()) {
+        <button
+          type="button"
+          class="inline-flex min-h-10 items-center rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
+        >
+          Add book
+        </button>
+      }
+    </div>
   </header>
 
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
+  <div class="grid gap-4 md:grid-cols-5">
+    @for (stat of library.stats(); track stat.label) {
       <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
-        </div>
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ stat.label }}</p>
+        <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ stat.value }}</p>
       </article>
     }
   </div>
+
+  <section class="rounded-xl bg-[#181715] p-5 text-[#faf9f5]" aria-label="Catalog filters">
+    <div class="grid gap-4 md:grid-cols-[1fr_16rem]">
+      <label class="block space-y-2">
+        <span class="text-sm font-medium text-[#faf9f5]">Search catalog</span>
+        <input
+          type="search"
+          class="min-h-10 w-full rounded-lg border border-[#252320] bg-[#1f1e1b] px-3 text-sm text-[#faf9f5] outline-none placeholder:text-[#a09d96] focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20"
+          placeholder="Title, author, ISBN, category, shelf"
+          [value]="library.search()"
+          (input)="onSearch($event)"
+        />
+      </label>
+
+      <label class="block space-y-2">
+        <span class="text-sm font-medium text-[#faf9f5]">Category</span>
+        <select
+          class="min-h-10 w-full rounded-lg border border-[#252320] bg-[#1f1e1b] px-3 text-sm text-[#faf9f5] outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20"
+          [value]="library.selectedCategory()"
+          (change)="onCategoryChange($event)"
+        >
+          <option value="all">All categories</option>
+          @for (category of library.categories(); track category) {
+            <option [value]="category">{{ category }}</option>
+          }
+        </select>
+      </label>
+    </div>
+  </section>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    @for (book of library.filteredBooks(); track book.$id) {
+      <app-book-card
+        [book]="book"
+        [activeIssues]="library.getIssueCount(book.$id)"
+        (viewBook)="openBook($event)"
+        (issueBook)="openIssueFlow($event)"
+      />
+    } @empty {
+      <article class="rounded-xl bg-[#efe9de] p-8 text-[#3d3d3a] lg:col-span-3">
+        No books match the current filters.
+      </article>
+    }
+  </div>
+
+  <section class="space-y-4">
+    <div>
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Detailed list</p>
+      <h2 class="mt-2 font-serif text-3xl font-normal text-[#141413]">Catalog table</h2>
+    </div>
+    <app-book-table
+      [books]="library.filteredBooks()"
+      (viewBook)="openBook($event)"
+      (issueBook)="openIssueFlow($event)"
+    />
+  </section>
 </section>

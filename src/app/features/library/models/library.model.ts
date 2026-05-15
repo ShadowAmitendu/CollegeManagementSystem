@@ -5,14 +5,18 @@ export interface Book extends Models.Row {
   readonly title: string;
   readonly author: string;
   readonly category: string;
+  readonly location: string;
+  readonly publishedYear: number;
   readonly availableCopies: number;
   readonly totalCopies: number;
+  readonly description: string;
   readonly coverFileId?: string;
 }
 
 export interface BookIssue extends Models.Row {
   readonly bookId: string;
   readonly studentId: string;
+  readonly studentName: string;
   readonly issuedAt: string;
   readonly dueAt: string;
   readonly returnedAt?: string;

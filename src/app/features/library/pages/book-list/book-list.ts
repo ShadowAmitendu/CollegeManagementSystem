@@ -1,19 +1,39 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+
+import { Permissions } from '../../../../core/services/permissions';
+import { BookCard } from '../../components/book-card/book-card';
+import { BookTable } from '../../components/book-table/book-table';
+import { Library } from '../../services/library';
 
 @Component({
   selector: 'app-book-list',
-  imports: [],
+  imports: [BookCard, BookTable, RouterLink],
   templateUrl: './book-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class BookList {
-  protected readonly eyebrow = signal('Library Page');
-  protected readonly title = signal('Book List');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  protected readonly library = inject(Library);
+  private readonly permissions = inject(Permissions);
+  protected readonly canManageLibrary = computed(() => this.permissions.can('library.update'));
+  private readonly router = inject(Router);
+
+  protected onSearch(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.library.setSearch(input.value);
+  }
+
+  protected onCategoryChange(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    this.library.setCategory(select.value);
+  }
+
+  protected openBook(bookId: string): void {
+    void this.router.navigate(['/library/books', bookId]);
+  }
+
+  protected openIssueFlow(bookId: string): void {
+    void this.router.navigate(['/library/issues'], { queryParams: { bookId } });
+  }
 }

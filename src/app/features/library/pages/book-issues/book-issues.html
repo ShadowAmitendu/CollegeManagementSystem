@@ -1,26 +1,110 @@
-<section class="space-y-6" aria-labelledby="book-issues-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="book-issues-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
+<section class="space-y-8" aria-labelledby="issues-title">
+  <header class="grid gap-8 border-b border-[#e6dfd8] pb-8 lg:grid-cols-[1fr_auto]">
+    <div class="max-w-3xl">
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Library</p>
+      <h1 id="issues-title" class="mt-3 font-serif text-5xl font-normal leading-[1.05] text-[#141413]">
+        Issue Register
+      </h1>
+      <p class="mt-4 text-base leading-7 text-[#3d3d3a]">
+        Track borrowed books, overdue items, returns, and circulation pressure across the campus library.
+      </p>
     </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
+
+    <a
+      routerLink="/library/books"
+      class="inline-flex min-h-10 items-center self-start rounded-lg border border-[#e6dfd8] bg-[#faf9f5] px-4 text-sm font-medium text-[#141413] hover:bg-[#f5f0e8] focus:outline-none focus:ring-2 focus:ring-[#cc785c]"
     >
-      Configure
-    </button>
+      Back to catalog
+    </a>
   </header>
 
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
-      <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
-        </div>
-      </article>
-    }
+  @if (selectedBook(); as book) {
+    <section class="rounded-xl bg-[#cc785c] p-6 text-white">
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-white/75">Selected book</p>
+      <h2 class="mt-2 font-serif text-3xl font-normal">{{ book.title }}</h2>
+      <p class="mt-2 text-sm leading-6 text-white/85">{{ book.availableCopies }} of {{ book.totalCopies }} copies available from {{ book.location }}.</p>
+    </section>
+  }
+
+  <div class="grid gap-4 md:grid-cols-4">
+    <article class="rounded-xl bg-[#efe9de] p-5">
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Total issues</p>
+      <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ library.issues().length }}</p>
+    </article>
+    <article class="rounded-xl bg-[#efe9de] p-5">
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Active</p>
+      <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ library.activeIssues().length }}</p>
+    </article>
+    <article class="rounded-xl bg-[#181715] p-5 text-[#faf9f5]">
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#a09d96]">Overdue</p>
+      <p class="mt-3 font-serif text-3xl font-normal">{{ library.overdueIssues().length }}</p>
+    </article>
+    <article class="rounded-xl bg-[#efe9de] p-5">
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Manage</p>
+      <p class="mt-3 text-sm font-medium text-[#141413]">{{ canManageLibrary() ? 'Enabled' : 'Read only' }}</p>
+    </article>
   </div>
+
+  <section class="rounded-xl bg-[#181715] p-5 text-[#faf9f5]" aria-label="Issue filters">
+    <label class="block max-w-xs space-y-2">
+      <span class="text-sm font-medium text-[#faf9f5]">Status</span>
+      <select
+        class="min-h-10 w-full rounded-lg border border-[#252320] bg-[#1f1e1b] px-3 text-sm text-[#faf9f5] outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20"
+        [value]="library.selectedIssueStatus()"
+        (change)="onStatusChange($event)"
+      >
+        <option value="all">All issues</option>
+        <option value="issued">Issued</option>
+        <option value="overdue">Overdue</option>
+        <option value="returned">Returned</option>
+      </select>
+    </label>
+  </section>
+
+  <section class="overflow-hidden rounded-xl border border-[#e6dfd8]">
+    <table class="min-w-full divide-y divide-[#e6dfd8] bg-[#faf9f5] text-left text-sm">
+      <thead class="bg-[#efe9de] text-xs uppercase tracking-[0.14em] text-[#6c6a64]">
+        <tr>
+          <th class="px-4 py-3 font-medium" scope="col">Book</th>
+          <th class="px-4 py-3 font-medium" scope="col">Student</th>
+          <th class="px-4 py-3 font-medium" scope="col">Issued</th>
+          <th class="px-4 py-3 font-medium" scope="col">Due</th>
+          <th class="px-4 py-3 font-medium" scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-[#e6dfd8]">
+        @for (issue of library.filteredIssues(); track issue.$id) {
+          <tr>
+            <td class="px-4 py-4">
+              <a
+                [routerLink]="['/library/books', issue.bookId]"
+                class="font-medium text-[#141413] underline-offset-4 hover:text-[#cc785c] hover:underline"
+              >
+                {{ library.getBookTitle(issue.bookId) }}
+              </a>
+            </td>
+            <td class="px-4 py-4">
+              <p class="font-medium text-[#141413]">{{ issue.studentName }}</p>
+              <p class="mt-1 font-mono text-xs text-[#6c6a64]">{{ issue.studentId }}</p>
+            </td>
+            <td class="px-4 py-4 text-[#3d3d3a]">{{ issue.issuedAt }}</td>
+            <td class="px-4 py-4 text-[#3d3d3a]">{{ issue.dueAt }}</td>
+            <td class="px-4 py-4">
+              @if (issue.status === 'overdue') {
+                <span class="rounded-full bg-[#cc785c] px-3 py-1 text-xs font-medium text-white">overdue</span>
+              } @else if (issue.status === 'issued') {
+                <span class="rounded-full bg-[#efe9de] px-3 py-1 text-xs font-medium text-[#141413]">issued</span>
+              } @else {
+                <span class="rounded-full bg-[#5db8a6]/15 px-3 py-1 text-xs font-medium text-[#2f7a47]">returned</span>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td class="px-4 py-10 text-center text-[#6c6a64]" colspan="5">No issues match this filter.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
 </section>
