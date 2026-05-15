@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-notification-list',
   imports: [],
   templateUrl: './notification-list.html',
-  styleUrl: './notification-list.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

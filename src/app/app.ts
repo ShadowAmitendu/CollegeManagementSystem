@@ -5,8 +5,8 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'block min-h-dvh bg-[#faf9f5] text-[#141413]' },
 })
 export class App {
   protected readonly title = signal('CollegeManagementSystem');

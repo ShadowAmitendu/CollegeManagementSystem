@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-student-form',
   imports: [],
   templateUrl: './student-form.html',
-  styleUrl: './student-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

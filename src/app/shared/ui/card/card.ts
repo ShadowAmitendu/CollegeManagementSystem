@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-card',
   imports: [],
   templateUrl: './card.html',
-  styleUrl: './card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

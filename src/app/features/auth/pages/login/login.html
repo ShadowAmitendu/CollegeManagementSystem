@@ -1,8 +1,8 @@
 <form class="space-y-6" [formGroup]="form" (ngSubmit)="onSubmit()" aria-labelledby="login-title">
   <header class="space-y-2">
-    <p class="text-xs font-medium uppercase tracking-wide text-zinc-500">Secure access</p>
-    <h1 id="login-title" class="text-2xl font-semibold tracking-normal text-zinc-950">Sign in to CMS</h1>
-    <p class="text-sm leading-6 text-zinc-600">
+    <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Secure access</p>
+    <h1 id="login-title" class="font-serif text-3xl font-normal leading-tight text-[#141413]">Sign in to CMS</h1>
+    <p class="text-sm leading-6 text-[#3d3d3a]">
       @if (auth.isStaticAuth) {
         Use a development role account to test permission-based college workflows without Appwrite.
       } @else {
@@ -12,46 +12,46 @@
   </header>
 
   @if (auth.error()) {
-    <p class="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
+    <p class="rounded-lg border border-[#c64545]/25 bg-[#c64545]/10 px-3 py-2 text-sm text-[#c64545]" role="alert">
       {{ auth.error() }}
     </p>
   }
 
   <div class="space-y-4">
     <label class="block space-y-2">
-      <span class="text-sm font-medium text-zinc-900">Email</span>
+      <span class="text-sm font-medium text-[#252523]">Email</span>
       <input
         type="email"
         formControlName="email"
         autocomplete="email"
-        class="min-h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-sm text-zinc-950 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950"
+        class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-[#faf9f5] px-3 text-sm text-[#141413] outline-none transition placeholder:text-[#8e8b82] focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/15"
         placeholder="name@college.edu"
       />
     </label>
 
     @if ((form.controls.email.touched || submitted()) && form.controls.email.invalid) {
-      <p class="text-sm text-red-700">Enter a valid email address.</p>
+      <p class="text-sm text-[#c64545]">Enter a valid email address.</p>
     }
 
     <label class="block space-y-2">
-      <span class="text-sm font-medium text-zinc-900">Password</span>
+      <span class="text-sm font-medium text-[#252523]">Password</span>
       <input
         type="password"
         formControlName="password"
         autocomplete="current-password"
-        class="min-h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-sm text-zinc-950 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950"
+        class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-[#faf9f5] px-3 text-sm text-[#141413] outline-none transition placeholder:text-[#8e8b82] focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/15"
         placeholder="Minimum 8 characters"
       />
     </label>
 
     @if ((form.controls.password.touched || submitted()) && form.controls.password.invalid) {
-      <p class="text-sm text-red-700">Password must be at least 8 characters.</p>
+      <p class="text-sm text-[#c64545]">Password must be at least 8 characters.</p>
     }
   </div>
 
   <button
     type="submit"
-    class="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-zinc-950 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-950 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-zinc-400"
+    class="inline-flex min-h-10 w-full items-center justify-center rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#efe9de] disabled:cursor-not-allowed disabled:bg-[#e6dfd8] disabled:text-[#8e8b82]"
     [disabled]="!canSubmit()"
   >
     @if (auth.loading()) {
@@ -62,10 +62,10 @@
   </button>
 
   @if (auth.isStaticAuth) {
-    <section class="space-y-3 border-t border-zinc-200 pt-5" aria-labelledby="dev-login-title">
+    <section class="space-y-3 border-t border-[#e6dfd8] pt-5" aria-labelledby="dev-login-title">
       <div>
-        <h2 id="dev-login-title" class="text-sm font-semibold text-zinc-950">Development accounts</h2>
-        <p class="mt-1 text-xs leading-5 text-zinc-500">All static accounts use password <span class="font-medium text-zinc-700">password123</span>.</p>
+        <h2 id="dev-login-title" class="text-sm font-medium text-[#141413]">Development accounts</h2>
+        <p class="mt-1 text-xs leading-5 text-[#6c6a64]">All static accounts use password <span class="font-medium text-[#3d3d3a]">password123</span>.</p>
       </div>
 
       <div class="grid gap-2 sm:grid-cols-2">
@@ -80,7 +80,7 @@
     </section>
   }
 
-  <a routerLink="/auth/forgot-password" class="inline-flex text-sm font-medium text-zinc-700 underline-offset-4 hover:text-zinc-950 hover:underline focus:outline-none focus:ring-2 focus:ring-zinc-950">
+  <a routerLink="/auth/forgot-password" class="inline-flex text-sm font-medium text-[#cc785c] underline-offset-4 hover:text-[#a9583e] hover:underline focus:outline-none focus:ring-2 focus:ring-[#cc785c]">
     Forgot password?
   </a>
 </form>

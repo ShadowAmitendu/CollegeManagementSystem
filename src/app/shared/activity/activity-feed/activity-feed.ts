@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-activity-feed',
   imports: [],
   templateUrl: './activity-feed.html',
-  styleUrl: './activity-feed.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

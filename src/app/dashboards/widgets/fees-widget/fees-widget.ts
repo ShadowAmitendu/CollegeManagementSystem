@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-fees-widget',
   imports: [],
   templateUrl: './fees-widget.html',
-  styleUrl: './fees-widget.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

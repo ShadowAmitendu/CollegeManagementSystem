@@ -1,30 +1,63 @@
-<section class="space-y-6" aria-labelledby="dashboard-title">
-  <header class="border-b border-zinc-200 pb-5">
-    <p class="text-xs font-medium uppercase tracking-wide text-zinc-500">Dashboard</p>
-    <h1 id="dashboard-title" class="mt-2 text-2xl font-semibold tracking-normal text-zinc-950">College Operations</h1>
-    <p class="mt-2 max-w-2xl text-sm leading-6 text-zinc-600">
+<section class="space-y-8" aria-labelledby="dashboard-title">
+  <header class="grid gap-8 border-b border-[#e6dfd8] pb-8 lg:grid-cols-[1fr_26rem]">
+    <div>
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Dashboard</p>
+      <h1 id="dashboard-title" class="mt-3 font-serif text-5xl font-normal leading-[1.05] text-[#141413]">
+        College Operations
+      </h1>
+      <p class="mt-4 max-w-2xl text-base leading-7 text-[#3d3d3a]">
       Widget-ready dashboard boilerplate for role-specific analytics, Appwrite realtime updates, and permission-driven workflows.
-    </p>
-    @if (auth.user(); as user) {
-      <div class="mt-4 flex flex-wrap items-center gap-2">
-        <span class="rounded-full bg-zinc-950 px-3 py-1 text-xs font-medium text-white">{{ user.name }}</span>
+      </p>
+      @if (auth.user(); as user) {
+        <div class="mt-5 flex flex-wrap items-center gap-2">
+          <span class="rounded-full bg-[#cc785c] px-3 py-1 text-xs font-medium text-white">{{ user.name }}</span>
         @for (role of user.roles; track role) {
-          <span class="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700">{{ role }}</span>
+            <span class="rounded-full bg-[#efe9de] px-3 py-1 text-xs font-medium text-[#141413]">{{ role }}</span>
         }
-        <span class="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700">
-          {{ user.permissions.length }} permissions
-        </span>
+          <span class="rounded-full bg-[#efe9de] px-3 py-1 text-xs font-medium text-[#141413]">
+            {{ user.permissions.length }} permissions
+          </span>
+        </div>
+      }
+    </div>
+
+    <div class="rounded-xl bg-[#181715] p-6 text-[#faf9f5]">
+      <div class="flex items-center justify-between gap-4">
+        <p class="font-mono text-xs text-[#a09d96]">rbac.preview</p>
+        <span class="rounded-full bg-[#252320] px-3 py-1 text-xs text-[#a09d96]">static</span>
       </div>
-    }
+      <div class="mt-6 space-y-3 font-mono text-sm leading-6">
+        <p><span class="text-[#8e8b82]">01</span> canMatch('/students')</p>
+        <p><span class="text-[#8e8b82]">02</span> canActivate(permission)</p>
+        <p><span class="text-[#8e8b82]">03</span> renderRoleWidgets()</p>
+      </div>
+    </div>
   </header>
 
   <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
     @for (widget of widgets(); track widget.title) {
-      <article class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-        <p class="text-sm font-medium text-zinc-600">{{ widget.title }}</p>
-        <p class="mt-3 text-2xl font-semibold text-zinc-950">{{ widget.value }}</p>
-        <p class="mt-2 text-sm leading-6 text-zinc-600">{{ widget.description }}</p>
-      </article>
+      @if (widget.tone === 'dark') {
+        <article class="rounded-xl bg-[#181715] p-6 text-[#faf9f5]">
+          <p class="text-sm font-medium text-[#a09d96]">{{ widget.title }}</p>
+          <p class="mt-3 font-serif text-3xl font-normal">{{ widget.value }}</p>
+          <p class="mt-3 text-sm leading-6 text-[#a09d96]">{{ widget.description }}</p>
+        </article>
+      } @else {
+        <article class="rounded-xl bg-[#efe9de] p-6 text-[#141413]">
+          <p class="text-sm font-medium text-[#6c6a64]">{{ widget.title }}</p>
+          <p class="mt-3 font-serif text-3xl font-normal">{{ widget.value }}</p>
+          <p class="mt-3 text-sm leading-6 text-[#3d3d3a]">{{ widget.description }}</p>
+        </article>
+      }
     }
   </div>
+
+  <section class="rounded-xl bg-[#cc785c] p-8 text-white">
+    <div class="max-w-3xl">
+      <h2 class="font-serif text-3xl font-normal leading-tight">Build the next workflow from a role, not a page.</h2>
+      <p class="mt-3 text-sm leading-6 text-white/85">
+        Every feature route is already guarded through centralized permissions, so Appwrite-backed modules can plug into the same surface.
+      </p>
+    </div>
+  </section>
 </section>

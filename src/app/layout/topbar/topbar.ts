@@ -7,9 +7,8 @@ import { Auth } from '../../core/services/auth';
   selector: 'app-topbar',
   imports: [RouterLink],
   templateUrl: './topbar.html',
-  styleUrl: './topbar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'block border-b border-zinc-200 bg-white/95 backdrop-blur' },
+  host: { class: 'block border-b border-[#e6dfd8] bg-[#faf9f5]/95 backdrop-blur' },
 })
 export class Topbar {
   protected readonly auth = inject(Auth);

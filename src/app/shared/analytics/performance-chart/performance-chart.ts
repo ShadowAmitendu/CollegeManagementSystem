@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-performance-chart',
   imports: [],
   templateUrl: './performance-chart.html',
-  styleUrl: './performance-chart.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

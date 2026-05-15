@@ -5,8 +5,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-auth-layout',
   imports: [RouterOutlet],
   templateUrl: './auth-layout.html',
-  styleUrl: './auth-layout.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'block min-h-dvh bg-zinc-50 text-zinc-950' },
+  host: { class: 'block min-h-dvh bg-[#faf9f5] text-[#141413]' },
 })
 export class AuthLayout {}

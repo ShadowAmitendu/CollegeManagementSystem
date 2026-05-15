@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-profile-settings',
   imports: [],
   templateUrl: './profile-settings.html',
-  styleUrl: './profile-settings.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

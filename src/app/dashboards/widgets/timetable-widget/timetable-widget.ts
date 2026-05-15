@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-timetable-widget',
   imports: [],
   templateUrl: './timetable-widget.html',
-  styleUrl: './timetable-widget.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

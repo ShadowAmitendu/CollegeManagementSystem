@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-attendance-widget',
   imports: [],
   templateUrl: './attendance-widget.html',
-  styleUrl: './attendance-widget.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

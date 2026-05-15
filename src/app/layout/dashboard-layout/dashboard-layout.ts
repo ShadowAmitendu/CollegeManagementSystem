@@ -8,8 +8,7 @@ import { Topbar } from '../topbar/topbar';
   selector: 'app-dashboard-layout',
   imports: [RouterOutlet, Sidebar, Topbar],
   templateUrl: './dashboard-layout.html',
-  styleUrl: './dashboard-layout.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'block min-h-dvh bg-zinc-50 text-zinc-950' },
+  host: { class: 'block min-h-dvh bg-[#faf9f5] text-[#141413]' },
 })
 export class DashboardLayout {}

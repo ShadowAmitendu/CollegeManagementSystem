@@ -6,7 +6,6 @@ import { type StaticUser } from '../../../../core/auth/static-users';
   selector: 'app-static-account-card',
   imports: [],
   templateUrl: './static-account-card.html',
-  styleUrl: './static-account-card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

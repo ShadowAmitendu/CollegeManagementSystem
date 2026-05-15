@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-confirm-dialog',
   imports: [],
   templateUrl: './confirm-dialog.html',
-  styleUrl: './confirm-dialog.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

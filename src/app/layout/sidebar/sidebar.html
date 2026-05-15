@@ -1,18 +1,27 @@
 <aside class="sticky top-0 flex h-dvh flex-col gap-6 px-4 py-5" aria-label="Primary navigation">
-  <a routerLink="/dashboard" class="flex items-center gap-3 rounded-xl px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-zinc-950">
-    <span class="grid size-9 place-items-center rounded-xl bg-zinc-950 text-sm font-semibold text-white">CMS</span>
-    <span class="text-sm font-semibold text-zinc-950">College Management</span>
+  <a routerLink="/dashboard" class="flex items-center gap-3 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]">
+    <span class="grid size-9 place-items-center rounded-lg bg-[#cc785c] text-lg leading-none text-white">*</span>
+    <span class="text-sm font-medium text-[#141413]">College Management</span>
   </a>
 
   <nav class="space-y-1">
-    @for (item of navItems(); track item.path) {
+    @for (item of visibleNavItems(); track item.path) {
       <a
         [routerLink]="item.path"
-        routerLinkActive="bg-zinc-100 text-zinc-950"
-        class="block rounded-xl px-3 py-2 text-sm font-medium text-zinc-600 transition hover:bg-zinc-50 hover:text-zinc-950 focus:outline-none focus:ring-2 focus:ring-zinc-950"
+        routerLinkActive="bg-[#efe9de] text-[#141413]"
+        class="block rounded-lg px-3 py-2 text-sm font-medium text-[#6c6a64] transition hover:bg-[#f5f0e8] hover:text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
       >
         {{ item.label }}
       </a>
     }
   </nav>
+
+  <div class="mt-auto rounded-xl bg-[#181715] p-4 text-[#faf9f5]">
+    <p class="font-mono text-xs text-[#a09d96]">Realtime</p>
+    <p class="mt-2 text-sm font-medium">Ready for Appwrite events</p>
+    <div class="mt-4 flex items-center gap-2 text-xs text-[#a09d96]">
+      <span class="size-2 rounded-full bg-[#5db8a6]"></span>
+      Offline-safe dev auth
+    </div>
+  </div>
 </aside>

@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-forgot-password',
   imports: [],
   templateUrl: './forgot-password.html',
-  styleUrl: './forgot-password.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

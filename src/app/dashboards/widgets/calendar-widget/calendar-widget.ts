@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-calendar-widget',
   imports: [],
   templateUrl: './calendar-widget.html',
-  styleUrl: './calendar-widget.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })

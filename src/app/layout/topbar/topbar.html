@@ -1,31 +1,31 @@
 <header class="flex min-h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-  <a href="#main-content" class="sr-only focus:not-sr-only focus:rounded-lg focus:bg-zinc-950 focus:px-3 focus:py-2 focus:text-white">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:rounded-lg focus:bg-[#181715] focus:px-3 focus:py-2 focus:text-[#faf9f5]">
     Skip to content
   </a>
 
   <div>
-    <p class="text-xs font-medium uppercase tracking-wide text-zinc-500">Workspace</p>
-    <p class="text-sm font-semibold text-zinc-950">Academic Operations</p>
+    <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Workspace</p>
+    <p class="text-sm font-medium text-[#141413]">Academic Operations</p>
   </div>
 
   <div class="flex items-center gap-3">
-    <a routerLink="/notifications" class="rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm font-medium text-zinc-900 shadow-sm hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-950">
+    <a routerLink="/notifications" class="rounded-lg border border-[#e6dfd8] bg-[#faf9f5] px-3 py-2 text-sm font-medium text-[#141413] hover:bg-[#f5f0e8] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">
       Notifications
     </a>
     @if (auth.user(); as user) {
       <div class="hidden text-right sm:block">
-        <p class="text-sm font-semibold text-zinc-950">{{ user.name }}</p>
-        <p class="text-xs text-zinc-500">{{ user.roles[0] }}</p>
+        <p class="text-sm font-medium text-[#141413]">{{ user.name }}</p>
+        <p class="text-xs text-[#6c6a64]">{{ user.roles[0] }}</p>
       </div>
       <button
         type="button"
-        class="rounded-xl bg-zinc-950 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-950 focus:ring-offset-2"
+        class="rounded-lg bg-[#cc785c] px-3 py-2 text-sm font-medium text-white hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
         (click)="signOut()"
       >
         Sign out
       </button>
     } @else {
-      <a routerLink="/auth/login" class="rounded-xl bg-zinc-950 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-950 focus:ring-offset-2">
+      <a routerLink="/auth/login" class="rounded-lg bg-[#cc785c] px-3 py-2 text-sm font-medium text-white hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]">
         Sign in
       </a>
     }
