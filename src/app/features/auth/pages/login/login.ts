@@ -4,10 +4,11 @@ import { Router, RouterLink } from '@angular/router';
 
 import { type StaticUser } from '../../../../core/auth/static-users';
 import { Auth } from '../../../../core/services/auth';
+import { StaticAccountCard } from '../../components/static-account-card/static-account-card';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, StaticAccountCard],
   templateUrl: './login.html',
   styleUrl: './login.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
