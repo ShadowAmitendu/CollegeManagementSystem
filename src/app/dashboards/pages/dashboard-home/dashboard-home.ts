@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -9,6 +11,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   host: { class: 'block' },
 })
 export class DashboardHome {
+  protected readonly auth = inject(Auth);
   protected readonly widgets = signal([
     { title: 'Attendance', value: '0 sessions', description: 'Session-based attendance summaries will render here.' },
     { title: 'Results', value: '0 records', description: 'Assessment publishing and review workflows are ready to connect.' },

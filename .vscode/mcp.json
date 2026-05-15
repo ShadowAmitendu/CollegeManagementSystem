@@ -4,6 +4,19 @@
     "angular-cli": {
       "command": "npx",
       "args": ["-y", "@angular/cli", "mcp"]
+    },
+    "appwrite-docs": {
+      "type": "http",
+      "url": "https://mcp-for-docs.appwrite.io"
+    },
+    "appwrite-api": {
+      "command": "uvx",
+      "args": ["mcp-server-appwrite"],
+      "env": {
+        "APPWRITE_ENDPOINT": "${env:APPWRITE_ENDPOINT}",
+        "APPWRITE_PROJECT_ID": "${env:APPWRITE_PROJECT_ID}",
+        "APPWRITE_API_KEY": "${env:APPWRITE_API_KEY}"
+      }
     }
   }
 }

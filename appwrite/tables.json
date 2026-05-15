@@ -1,0 +1,86 @@
+[
+  {
+    "$id": "users",
+    "databaseId": "college-management",
+    "name": "Users",
+    "enabled": true
+  },
+  {
+    "$id": "roles",
+    "databaseId": "college-management",
+    "name": "Roles",
+    "enabled": true
+  },
+  {
+    "$id": "permissions",
+    "databaseId": "college-management",
+    "name": "Permissions",
+    "enabled": true
+  },
+  {
+    "$id": "students",
+    "databaseId": "college-management",
+    "name": "Students",
+    "enabled": true
+  },
+  {
+    "$id": "faculty",
+    "databaseId": "college-management",
+    "name": "Faculty",
+    "enabled": true
+  },
+  {
+    "$id": "departments",
+    "databaseId": "college-management",
+    "name": "Departments",
+    "enabled": true
+  },
+  {
+    "$id": "course_offerings",
+    "databaseId": "college-management",
+    "name": "Course Offerings",
+    "enabled": true
+  },
+  {
+    "$id": "attendance_sessions",
+    "databaseId": "college-management",
+    "name": "Attendance Sessions",
+    "enabled": true
+  },
+  {
+    "$id": "attendance_records",
+    "databaseId": "college-management",
+    "name": "Attendance Records",
+    "enabled": true
+  },
+  {
+    "$id": "books",
+    "databaseId": "college-management",
+    "name": "Books",
+    "enabled": true
+  },
+  {
+    "$id": "book_issues",
+    "databaseId": "college-management",
+    "name": "Book Issues",
+    "enabled": true
+  },
+  {
+    "$id": "results",
+    "databaseId": "college-management",
+    "name": "Results",
+    "enabled": true
+  },
+  {
+    "$id": "notifications",
+    "databaseId": "college-management",
+    "name": "Notifications",
+    "enabled": true
+  },
+  {
+    "$id": "activity",
+    "databaseId": "college-management",
+    "name": "Activity",
+    "enabled": true
+  }
+]

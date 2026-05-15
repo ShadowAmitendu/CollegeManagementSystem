@@ -5,6 +5,17 @@
     <p class="mt-2 max-w-2xl text-sm leading-6 text-zinc-600">
       Widget-ready dashboard boilerplate for role-specific analytics, Appwrite realtime updates, and permission-driven workflows.
     </p>
+    @if (auth.user(); as user) {
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        <span class="rounded-full bg-zinc-950 px-3 py-1 text-xs font-medium text-white">{{ user.name }}</span>
+        @for (role of user.roles; track role) {
+          <span class="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700">{{ role }}</span>
+        }
+        <span class="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700">
+          {{ user.permissions.length }} permissions
+        </span>
+      </div>
+    }
   </header>
 
   <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

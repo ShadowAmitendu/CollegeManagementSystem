@@ -6,7 +6,12 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "appwrite": "appwrite",
+    "appwrite:version": "appwrite -v",
+    "appwrite:login": "appwrite login",
+    "appwrite:init": "appwrite init project",
+    "appwrite:push": "appwrite push all --all"
   },
   "private": true,
   "packageManager": "npm@11.5.2",

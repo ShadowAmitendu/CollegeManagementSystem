@@ -1,5 +1,8 @@
 export const environment = {
   production: false,
+  auth: {
+    strategy: 'static',
+  },
   appwrite: {
     endpoint: 'https://cloud.appwrite.io/v1',
     projectId: 'replace-with-dev-appwrite-project-id',

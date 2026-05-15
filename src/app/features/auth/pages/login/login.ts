@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
+import { type StaticUser } from '../../../../core/auth/static-users';
 import { Auth } from '../../../../core/services/auth';
 
 @Component({
@@ -17,6 +18,7 @@ export class Login {
   private readonly router = inject(Router);
   protected readonly auth = inject(Auth);
   protected readonly submitted = signal(false);
+  protected readonly developmentUsers = this.auth.staticUsers;
 
   protected readonly form = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -37,6 +39,19 @@ export class Login {
 
     const { email, password } = this.form.getRawValue();
     await this.auth.login(email, password);
+    await this.router.navigateByUrl('/dashboard');
+  }
+
+  protected useDevelopmentUser(user: StaticUser): void {
+    this.form.setValue({
+      email: user.email,
+      password: user.password,
+    });
+    this.submitted.set(false);
+  }
+
+  protected async loginAsDevelopmentUser(user: StaticUser): Promise<void> {
+    this.auth.loginAsStaticUser(user);
     await this.router.navigateByUrl('/dashboard');
   }
 }

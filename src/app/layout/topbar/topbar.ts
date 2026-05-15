@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+
+import { Auth } from '../../core/services/auth';
 
 @Component({
   selector: 'app-topbar',
@@ -9,4 +11,12 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block border-b border-zinc-200 bg-white/95 backdrop-blur' },
 })
-export class Topbar {}
+export class Topbar {
+  protected readonly auth = inject(Auth);
+  private readonly router = inject(Router);
+
+  protected async signOut(): Promise<void> {
+    await this.auth.logout();
+    await this.router.navigateByUrl('/auth/login');
+  }
+}

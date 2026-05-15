@@ -2,7 +2,13 @@
   <header class="space-y-2">
     <p class="text-xs font-medium uppercase tracking-wide text-zinc-500">Secure access</p>
     <h1 id="login-title" class="text-2xl font-semibold tracking-normal text-zinc-950">Sign in to CMS</h1>
-    <p class="text-sm leading-6 text-zinc-600">Use your Appwrite account session to access permission-based college workflows.</p>
+    <p class="text-sm leading-6 text-zinc-600">
+      @if (auth.isStaticAuth) {
+        Use a development role account to test permission-based college workflows without Appwrite.
+      } @else {
+        Use your Appwrite account session to access permission-based college workflows.
+      }
+    </p>
   </header>
 
   @if (auth.error()) {
@@ -54,6 +60,31 @@
       Sign in
     }
   </button>
+
+  @if (auth.isStaticAuth) {
+    <section class="space-y-3 border-t border-zinc-200 pt-5" aria-labelledby="dev-login-title">
+      <div>
+        <h2 id="dev-login-title" class="text-sm font-semibold text-zinc-950">Development accounts</h2>
+        <p class="mt-1 text-xs leading-5 text-zinc-500">All static accounts use password <span class="font-medium text-zinc-700">password123</span>.</p>
+      </div>
+
+      <div class="grid gap-2 sm:grid-cols-2">
+        @for (user of developmentUsers; track user.userId) {
+          <button
+            type="button"
+            class="rounded-xl border border-zinc-200 bg-white p-3 text-left shadow-sm transition hover:border-zinc-300 hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-950"
+            (click)="loginAsDevelopmentUser(user)"
+          >
+            <span class="block text-sm font-semibold text-zinc-950">{{ user.name }}</span>
+            <span class="mt-1 block text-xs text-zinc-500">{{ user.email }}</span>
+            <span class="mt-2 inline-flex rounded-full bg-zinc-100 px-2 py-1 text-xs font-medium text-zinc-700">
+              {{ user.roles[0] }}
+            </span>
+          </button>
+        }
+      </div>
+    </section>
+  }
 
   <a routerLink="/auth/forgot-password" class="inline-flex text-sm font-medium text-zinc-700 underline-offset-4 hover:text-zinc-950 hover:underline focus:outline-none focus:ring-2 focus:ring-zinc-950">
     Forgot password?
