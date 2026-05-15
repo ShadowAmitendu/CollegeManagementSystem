@@ -1,19 +1,31 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+
+import { Permissions } from '../../../../core/services/permissions';
+import { StudentProfileHeader } from '../../components/student-profile-header/student-profile-header';
+import { Students } from '../../services/students';
 
 @Component({
   selector: 'app-student-details',
-  imports: [],
+  imports: [RouterLink, StudentProfileHeader],
   templateUrl: './student-details.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class StudentDetails {
-  protected readonly eyebrow = signal('Students Page');
-  protected readonly title = signal('Student Details');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly permissions = inject(Permissions);
+  protected readonly students = inject(Students);
+
+  protected readonly student = computed(() => this.students.getStudent(this.route.snapshot.paramMap.get('id') ?? ''));
+  protected readonly canEditStudent = computed(() => this.permissions.can('students.update'));
+
+  protected editStudent(studentId: string): void {
+    if (!this.canEditStudent()) {
+      return;
+    }
+
+    void this.router.navigate(['/students', studentId, 'edit']);
+  }
 }

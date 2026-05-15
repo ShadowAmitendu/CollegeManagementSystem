@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+
+import { type CmsNotification } from '../../models/notification.model';
 
 @Component({
   selector: 'app-notification-card',
@@ -8,12 +10,18 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   host: { class: 'block' },
 })
 export class NotificationCard {
-  protected readonly eyebrow = signal('Notifications Component');
-  protected readonly title = signal('Notification Card');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  readonly notification = input.required<CmsNotification>();
+  readonly canManage = input(false);
+  readonly publishNotification = output<string>();
+  readonly archiveNotification = output<string>();
+
+  protected readonly priorityClass = computed(() => {
+    const priority = this.notification().priority;
+
+    if (priority === 'urgent' || priority === 'high') {
+      return 'bg-[#cc785c] text-white';
+    }
+
+    return 'bg-[#faf9f5] text-[#141413]';
+  });
 }

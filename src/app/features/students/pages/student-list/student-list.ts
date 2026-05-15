@@ -1,19 +1,48 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+
+import { Permissions } from '../../../../core/services/permissions';
+import { StudentCard } from '../../components/student-card/student-card';
+import { StudentTable } from '../../components/student-table/student-table';
+import { type StudentStatusFilter } from '../../models/student.model';
+import { Students } from '../../services/students';
 
 @Component({
   selector: 'app-student-list',
-  imports: [],
+  imports: [StudentCard, StudentTable, RouterLink],
   templateUrl: './student-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class StudentList {
-  protected readonly eyebrow = signal('Students Page');
-  protected readonly title = signal('Student List');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  protected readonly students = inject(Students);
+  private readonly permissions = inject(Permissions);
+  private readonly router = inject(Router);
+
+  protected readonly canCreateStudent = computed(() => this.permissions.can('students.create'));
+  protected readonly canEditStudent = computed(() => this.permissions.can('students.update'));
+
+  protected onSearch(event: Event): void {
+    this.students.setSearch((event.target as HTMLInputElement).value);
+  }
+
+  protected onDepartmentChange(event: Event): void {
+    this.students.setDepartment((event.target as HTMLSelectElement).value);
+  }
+
+  protected onStatusChange(event: Event): void {
+    this.students.setStatus((event.target as HTMLSelectElement).value as StudentStatusFilter);
+  }
+
+  protected openStudent(studentId: string): void {
+    void this.router.navigate(['/students', studentId]);
+  }
+
+  protected editStudent(studentId: string): void {
+    if (!this.canEditStudent()) {
+      return;
+    }
+
+    void this.router.navigate(['/students', studentId, 'edit']);
+  }
 }

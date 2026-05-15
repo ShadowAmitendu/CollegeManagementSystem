@@ -1,26 +1,54 @@
-<section class="space-y-6" aria-labelledby="result-details-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="result-details-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
-    </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
-    >
-      Configure
-    </button>
-  </header>
+@if (result(); as resultValue) {
+  <section class="space-y-8" aria-labelledby="result-details-title">
+    <header class="rounded-xl bg-[#181715] p-6 text-[#faf9f5]">
+      <a routerLink="/results" class="text-sm font-medium text-[#a09d96] hover:text-[#faf9f5] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">Back to results</a>
+      <p class="mt-5 text-xs font-medium uppercase tracking-[0.14em] text-[#a09d96]">
+        {{ resultValue.courseCode }} · {{ resultValue.examType }} · {{ resultValue.status }}
+      </p>
+      <h1 id="result-details-title" class="mt-3 font-serif text-5xl font-normal leading-[1.05]">{{ resultValue.studentName }}</h1>
+      <p class="mt-4 max-w-3xl text-base leading-7 text-[#d8d2ca]">
+        {{ resultValue.courseTitle }} · {{ resultValue.departmentName }} · Sem {{ resultValue.semester }}
+      </p>
+    </header>
 
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
+    <div class="grid gap-4 md:grid-cols-4">
       <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
-        </div>
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Score</p>
+        <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ percentage() }}%</p>
       </article>
-    }
-  </div>
-</section>
+      <article class="rounded-xl bg-[#efe9de] p-5">
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Marks</p>
+        <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ resultValue.marksObtained }}/{{ resultValue.maximumMarks }}</p>
+      </article>
+      <article class="rounded-xl bg-[#efe9de] p-5">
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Grade</p>
+        <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ resultValue.grade }}</p>
+      </article>
+      <article class="rounded-xl bg-[#efe9de] p-5">
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Grade point</p>
+        <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ resultValue.gradePoint }}</p>
+      </article>
+    </div>
+
+    <section class="grid gap-4 lg:grid-cols-[1fr_20rem]">
+      <article class="rounded-xl bg-[#efe9de] p-5">
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Evaluation</p>
+        <dl class="mt-4 grid gap-4 text-sm md:grid-cols-2">
+          <div><dt class="text-[#6c6a64]">Evaluator</dt><dd class="mt-1 font-medium text-[#141413]">{{ resultValue.evaluatorName }}</dd></div>
+          <div><dt class="text-[#6c6a64]">Published</dt><dd class="mt-1 font-medium text-[#141413]">{{ resultValue.publishedAt ?? 'Not published' }}</dd></div>
+          <div><dt class="text-[#6c6a64]">Course offering</dt><dd class="mt-1 font-mono text-xs text-[#141413]">{{ resultValue.courseOfferingId }}</dd></div>
+          <div><dt class="text-[#6c6a64]">Student ID</dt><dd class="mt-1 font-mono text-xs text-[#141413]">{{ resultValue.studentId }}</dd></div>
+        </dl>
+      </article>
+      <article class="rounded-xl bg-[#efe9de] p-5">
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Remarks</p>
+        <p class="mt-4 text-sm leading-6 text-[#3d3d3a]">{{ resultValue.remarks ?? 'No evaluator remarks recorded.' }}</p>
+      </article>
+    </section>
+  </section>
+} @else {
+  <section class="rounded-xl bg-[#efe9de] p-8 text-[#3d3d3a]">
+    <h1 class="font-serif text-3xl font-normal text-[#141413]">Result not found</h1>
+    <a routerLink="/results" class="mt-5 inline-flex min-h-10 items-center rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white">Back to results</a>
+  </section>
+}

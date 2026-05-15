@@ -1,26 +1,41 @@
-<section class="space-y-6" aria-labelledby="student-details-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="student-details-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
-    </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
-    >
-      Configure
-    </button>
-  </header>
+@if (student(); as studentValue) {
+  <section class="space-y-8" aria-labelledby="student-details-title">
+    <a routerLink="/students" class="text-sm font-medium text-[#6c6a64] hover:text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">Back to students</a>
+    <app-student-profile-header [student]="studentValue" (editStudent)="editStudent($event)" />
 
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
+    <div class="grid gap-4 md:grid-cols-4">
       <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
-        </div>
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">CGPA</p>
+        <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ studentValue.cgpa }}</p>
       </article>
-    }
-  </div>
-</section>
+      <article class="rounded-xl bg-[#efe9de] p-5">
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Attendance</p>
+        <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ studentValue.attendancePercentage }}%</p>
+      </article>
+      <article class="rounded-xl bg-[#efe9de] p-5">
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Semester</p>
+        <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ studentValue.semester }}</p>
+      </article>
+      <article class="rounded-xl bg-[#efe9de] p-5">
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Status</p>
+        <p class="mt-3 font-serif text-3xl font-normal capitalize text-[#141413]">{{ studentValue.status }}</p>
+      </article>
+    </div>
+
+    <section class="rounded-xl bg-[#efe9de] p-5" aria-label="Student contact and academic information">
+      <dl class="grid gap-5 text-sm md:grid-cols-2">
+        <div><dt class="text-[#6c6a64]">Email</dt><dd class="mt-1 font-medium text-[#141413]">{{ studentValue.email }}</dd></div>
+        <div><dt class="text-[#6c6a64]">Phone</dt><dd class="mt-1 font-medium text-[#141413]">{{ studentValue.phone }}</dd></div>
+        <div><dt class="text-[#6c6a64]">Section</dt><dd class="mt-1 font-medium text-[#141413]">{{ studentValue.section }}</dd></div>
+        <div><dt class="text-[#6c6a64]">Enrollment year</dt><dd class="mt-1 font-medium text-[#141413]">{{ studentValue.enrollmentYear }}</dd></div>
+        <div><dt class="text-[#6c6a64]">Advisor</dt><dd class="mt-1 font-medium text-[#141413]">{{ studentValue.advisorName }}</dd></div>
+        <div><dt class="text-[#6c6a64]">User ID</dt><dd class="mt-1 font-mono text-xs text-[#141413]">{{ studentValue.userId }}</dd></div>
+      </dl>
+    </section>
+  </section>
+} @else {
+  <section class="rounded-xl bg-[#efe9de] p-8 text-[#3d3d3a]">
+    <h1 class="font-serif text-3xl font-normal text-[#141413]">Student not found</h1>
+    <a routerLink="/students" class="mt-5 inline-flex min-h-10 items-center rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white">Back to students</a>
+  </section>
+}

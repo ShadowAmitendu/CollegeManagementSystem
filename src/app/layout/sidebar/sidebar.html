@@ -9,6 +9,7 @@
       <a
         [routerLink]="item.path"
         routerLinkActive="bg-[#efe9de] text-[#141413]"
+        [routerLinkActiveOptions]="{ exact: false }"
         class="block rounded-lg px-3 py-2 text-sm font-medium text-[#6c6a64] transition hover:bg-[#f5f0e8] hover:text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
       >
         {{ item.label }}

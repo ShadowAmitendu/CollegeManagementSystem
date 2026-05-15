@@ -1,26 +1,42 @@
-<section class="space-y-6" aria-labelledby="notification-card-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="notification-card-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
+<article class="rounded-xl bg-[#efe9de] p-5 text-[#141413]">
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">
+        {{ notification().category }} · {{ notification().status }}
+      </p>
+      <h2 class="mt-3 font-serif text-2xl font-normal leading-tight">{{ notification().title }}</h2>
     </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
-    >
-      Configure
-    </button>
-  </header>
-
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
-      <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
-        </div>
-      </article>
-    }
+    <span class="shrink-0 rounded-full px-3 py-1 text-xs font-medium capitalize" [class]="priorityClass()">
+      {{ notification().priority }}
+    </span>
   </div>
-</section>
+
+  <p class="mt-4 text-sm leading-6 text-[#3d3d3a]">{{ notification().message }}</p>
+
+  <dl class="mt-5 grid gap-3 text-sm sm:grid-cols-3">
+    <div><dt class="text-xs text-[#6c6a64]">Audience</dt><dd class="mt-1 font-medium">{{ notification().audienceLabel }}</dd></div>
+    <div><dt class="text-xs text-[#6c6a64]">Reads</dt><dd class="mt-1 font-medium">{{ notification().readCount }}</dd></div>
+    <div><dt class="text-xs text-[#6c6a64]">Owner</dt><dd class="mt-1 font-medium">{{ notification().createdByName }}</dd></div>
+  </dl>
+
+  @if (canManage()) {
+    <div class="mt-6 flex flex-wrap gap-2">
+      <button
+        type="button"
+        class="min-h-10 rounded-lg bg-[#cc785c] px-4 text-sm font-medium text-white hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] disabled:cursor-not-allowed disabled:bg-[#e6dfd8] disabled:text-[#8e8b82]"
+        [disabled]="notification().status === 'published'"
+        (click)="publishNotification.emit(notification().$id)"
+      >
+        Publish
+      </button>
+      <button
+        type="button"
+        class="min-h-10 rounded-lg border border-[#e6dfd8] bg-[#faf9f5] px-4 text-sm font-medium text-[#141413] hover:bg-[#f5f0e8] focus:outline-none focus:ring-2 focus:ring-[#cc785c] disabled:cursor-not-allowed disabled:text-[#8e8b82]"
+        [disabled]="notification().status === 'archived'"
+        (click)="archiveNotification.emit(notification().$id)"
+      >
+        Archive
+      </button>
+    </div>
+  }
+</article>

@@ -1,19 +1,17 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+
+import { Departments } from '../../services/departments';
 
 @Component({
   selector: 'app-department-details',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './department-details.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class DepartmentDetails {
-  protected readonly eyebrow = signal('Departments Page');
-  protected readonly title = signal('Department Details');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  private readonly route = inject(ActivatedRoute);
+  protected readonly departments = inject(Departments);
+  protected readonly department = computed(() => this.departments.getDepartment(this.route.snapshot.paramMap.get('id') ?? ''));
 }

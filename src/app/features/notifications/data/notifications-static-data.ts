@@ -1,0 +1,72 @@
+import { type Models } from 'appwrite';
+
+import { type CmsNotification } from '../models/notification.model';
+
+const rowMeta = (id: string): Models.Row => ({
+  $id: id,
+  $sequence: id,
+  $createdAt: '2026-05-15T04:00:00.000Z',
+  $updatedAt: '2026-05-15T04:00:00.000Z',
+  $permissions: [],
+  $databaseId: 'college-management',
+  $tableId: 'notifications',
+});
+
+export const CMS_NOTIFICATIONS: readonly CmsNotification[] = [
+  {
+    ...rowMeta('not-attendance-lock'),
+    title: 'Attendance submission closes today',
+    message: 'Faculty should submit pending attendance sessions before 5:00 PM.',
+    category: 'attendance',
+    priority: 'high',
+    audienceLabel: 'Faculty and HODs',
+    audiencePermission: 'attendance.update',
+    createdByUserId: 'dev-admin',
+    createdByName: 'Admin User',
+    publishedAt: '2026-05-15T04:30:00.000Z',
+    expiresAt: '2026-05-15T12:00:00.000Z',
+    readCount: 42,
+    status: 'published',
+  },
+  {
+    ...rowMeta('not-library-overdue'),
+    title: 'Library overdue review',
+    message: 'The library team has flagged overdue issues for follow-up this week.',
+    category: 'library',
+    priority: 'normal',
+    audienceLabel: 'Library staff',
+    audiencePermission: 'library.update',
+    createdByUserId: 'dev-librarian',
+    createdByName: 'Librarian User',
+    publishedAt: '2026-05-14T08:00:00.000Z',
+    readCount: 16,
+    status: 'published',
+  },
+  {
+    ...rowMeta('not-results-draft'),
+    title: 'Internal assessment result draft',
+    message: 'Result entry opens after department verification is complete.',
+    category: 'academic',
+    priority: 'normal',
+    audienceLabel: 'Academic office',
+    audiencePermission: 'results.create',
+    createdByUserId: 'dev-principal',
+    createdByName: 'Principal User',
+    readCount: 0,
+    status: 'draft',
+  },
+  {
+    ...rowMeta('not-system-maintenance'),
+    title: 'Maintenance window archived',
+    message: 'The development Appwrite maintenance notice has been archived.',
+    category: 'system',
+    priority: 'low',
+    audienceLabel: 'Administration',
+    audiencePermission: 'settings.update',
+    createdByUserId: 'dev-admin',
+    createdByName: 'Admin User',
+    publishedAt: '2026-05-12T15:00:00.000Z',
+    readCount: 9,
+    status: 'archived',
+  },
+];

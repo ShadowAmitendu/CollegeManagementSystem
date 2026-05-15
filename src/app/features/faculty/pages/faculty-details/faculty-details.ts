@@ -1,19 +1,30 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+
+import { Permissions } from '../../../../core/services/permissions';
+import { Faculty } from '../../services/faculty';
 
 @Component({
   selector: 'app-faculty-details',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './faculty-details.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class FacultyDetails {
-  protected readonly eyebrow = signal('Faculty Page');
-  protected readonly title = signal('Faculty Details');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly permissions = inject(Permissions);
+  protected readonly faculty = inject(Faculty);
+
+  protected readonly member = computed(() => this.faculty.getFacultyMember(this.route.snapshot.paramMap.get('id') ?? ''));
+  protected readonly canEditFaculty = computed(() => this.permissions.can('faculty.update'));
+
+  protected editFaculty(facultyId: string): void {
+    if (!this.canEditFaculty()) {
+      return;
+    }
+
+    void this.router.navigate(['/faculty', facultyId, 'edit']);
+  }
 }

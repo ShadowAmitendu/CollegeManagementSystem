@@ -1,26 +1,47 @@
-<section class="space-y-6" aria-labelledby="notification-list-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="notification-list-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
-    </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
-    >
-      Configure
-    </button>
+<section class="space-y-8" aria-labelledby="notification-list-title">
+  <header class="border-b border-[#e6dfd8] pb-8">
+    <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Notifications</p>
+    <h1 id="notification-list-title" class="mt-3 font-serif text-5xl font-normal leading-[1.05] text-[#141413]">Broadcast Center</h1>
+    <p class="mt-4 max-w-2xl text-base leading-7 text-[#3d3d3a]">Review campus messages, draft broadcasts, and audience-targeted announcements.</p>
   </header>
 
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
+  <div class="grid gap-4 md:grid-cols-5">
+    @for (stat of notifications.stats(); track stat.label) {
       <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
-        </div>
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ stat.label }}</p>
+        <p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ stat.value }}</p>
       </article>
+    }
+  </div>
+
+  <section class="rounded-xl bg-[#181715] p-5 text-[#faf9f5]" aria-label="Notification filters">
+    <div class="grid gap-4 md:grid-cols-[1fr_12rem]">
+      <label class="block space-y-2">
+        <span class="text-sm font-medium">Search notifications</span>
+        <input type="search" class="min-h-10 w-full rounded-lg border border-[#252320] bg-[#1f1e1b] px-3 text-sm outline-none placeholder:text-[#a09d96] focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" placeholder="Title, category, audience" [value]="notifications.search()" (input)="onSearch($event)" />
+      </label>
+      <label class="block space-y-2">
+        <span class="text-sm font-medium">Status</span>
+        <select class="min-h-10 w-full rounded-lg border border-[#252320] bg-[#1f1e1b] px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" [value]="notifications.selectedStatus()" (change)="onStatusChange($event)">
+          <option value="all">All status</option>
+          <option value="draft">Draft</option>
+          <option value="published">Published</option>
+          <option value="archived">Archived</option>
+        </select>
+      </label>
+    </div>
+  </section>
+
+  <div class="grid gap-4 lg:grid-cols-2">
+    @for (notification of notifications.filteredRows(); track notification.$id) {
+      <app-notification-card
+        [notification]="notification"
+        [canManage]="canManageNotifications()"
+        (publishNotification)="publishNotification($event)"
+        (archiveNotification)="archiveNotification($event)"
+      />
+    } @empty {
+      <article class="rounded-xl bg-[#efe9de] p-8 text-[#3d3d3a] lg:col-span-2">No notifications match the current filters.</article>
     }
   </div>
 </section>

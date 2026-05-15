@@ -1,26 +1,49 @@
-<section class="space-y-6" aria-labelledby="student-card-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="student-card-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
+<article class="flex h-full flex-col rounded-xl bg-[#efe9de] p-5 text-[#141413]">
+  <div class="flex items-start justify-between gap-4">
+    <div class="min-w-0">
+      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ student().admissionNumber }}</p>
+      <h2 class="mt-3 font-serif text-2xl font-normal leading-tight">{{ fullName() }}</h2>
+      <p class="mt-2 text-sm text-[#6c6a64]">{{ student().program }} · {{ student().section }}</p>
     </div>
+    <span class="shrink-0 rounded-full px-3 py-1 text-xs font-medium capitalize" [class]="statusClass()">
+      {{ student().status }}
+    </span>
+  </div>
+
+  <dl class="mt-5 grid grid-cols-3 gap-3 text-sm">
+    <div>
+      <dt class="text-xs text-[#6c6a64]">Semester</dt>
+      <dd class="mt-1 font-medium">{{ student().semester }}</dd>
+    </div>
+    <div>
+      <dt class="text-xs text-[#6c6a64]">CGPA</dt>
+      <dd class="mt-1 font-medium">{{ student().cgpa }}</dd>
+    </div>
+    <div>
+      <dt class="text-xs text-[#6c6a64]">Attendance</dt>
+      <dd class="mt-1 font-medium">{{ student().attendancePercentage }}%</dd>
+    </div>
+  </dl>
+
+  <div class="mt-5 rounded-lg bg-[#faf9f5] p-3 text-sm text-[#3d3d3a]">
+    <p>{{ student().departmentName }}</p>
+    <p class="mt-1">{{ student().advisorName }}</p>
+  </div>
+
+  <div class="mt-6 grid grid-cols-2 gap-2">
     <button
       type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
+      class="min-h-10 rounded-lg border border-[#e6dfd8] bg-[#faf9f5] px-3 text-sm font-medium text-[#141413] transition hover:bg-[#f5f0e8] focus:outline-none focus:ring-2 focus:ring-[#cc785c]"
+      (click)="viewStudent.emit(student().$id)"
     >
-      Configure
+      Details
     </button>
-  </header>
-
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
-      <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
-        </div>
-      </article>
-    }
+    <button
+      type="button"
+      class="min-h-10 rounded-lg bg-[#cc785c] px-3 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#efe9de]"
+      (click)="editStudent.emit(student().$id)"
+    >
+      Edit
+    </button>
   </div>
-</section>
+</article>

@@ -6,7 +6,7 @@
         College Operations
       </h1>
       <p class="mt-4 max-w-2xl text-base leading-7 text-[#3d3d3a]">
-      Widget-ready dashboard boilerplate for role-specific analytics, Appwrite realtime updates, and permission-driven workflows.
+        Permission-driven operational widgets backed by the same feature services used across the app.
       </p>
       @if (auth.user(); as user) {
         <div class="mt-5 flex flex-wrap items-center gap-2">
@@ -29,28 +29,37 @@
       <div class="mt-6 space-y-3 font-mono text-sm leading-6">
         <p><span class="text-[#8e8b82]">01</span> canMatch('/students')</p>
         <p><span class="text-[#8e8b82]">02</span> canActivate(permission)</p>
-        <p><span class="text-[#8e8b82]">03</span> renderRoleWidgets()</p>
+        <p><span class="text-[#8e8b82]">03</span> renderPermissionWidgets()</p>
       </div>
     </div>
   </header>
 
-  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-    @for (widget of widgets(); track widget.title) {
-      @if (widget.tone === 'dark') {
-        <article class="rounded-xl bg-[#181715] p-6 text-[#faf9f5]">
-          <p class="text-sm font-medium text-[#a09d96]">{{ widget.title }}</p>
-          <p class="mt-3 font-serif text-3xl font-normal">{{ widget.value }}</p>
-          <p class="mt-3 text-sm leading-6 text-[#a09d96]">{{ widget.description }}</p>
-        </article>
-      } @else {
-        <article class="rounded-xl bg-[#efe9de] p-6 text-[#141413]">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ widget.title }}</p>
-          <p class="mt-3 font-serif text-3xl font-normal">{{ widget.value }}</p>
-          <p class="mt-3 text-sm leading-6 text-[#3d3d3a]">{{ widget.description }}</p>
-        </article>
-      }
+  <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4" aria-label="Dashboard widgets">
+    @if (permissions.can('attendance.read')) {
+      <app-attendance-widget />
     }
-  </div>
+    @if (permissions.can('attendance.read')) {
+      <app-timetable-widget />
+    }
+    @if (permissions.can('library.read')) {
+      <app-library-widget />
+    }
+    @if (permissions.can('results.read')) {
+      <app-results-widget />
+    }
+    @if (permissions.canAny(['students.read', 'faculty.read'])) {
+      <app-performance-widget />
+    }
+    @if (permissions.can('notifications.read')) {
+      <app-notification-widget />
+    }
+    @if (permissions.can('dashboard.read')) {
+      <app-calendar-widget />
+    }
+    @if (permissions.canAny(['departments.read', 'notifications.read'])) {
+      <app-activity-widget />
+    }
+  </section>
 
   <section class="rounded-xl bg-[#cc785c] p-8 text-white">
     <div class="max-w-3xl">

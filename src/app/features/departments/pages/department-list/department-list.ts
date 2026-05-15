@@ -1,19 +1,31 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { DepartmentCard } from '../../components/department-card/department-card';
+import { DepartmentTable } from '../../components/department-table/department-table';
+import { type DepartmentStatusFilter } from '../../models/department.model';
+import { Departments } from '../../services/departments';
 
 @Component({
   selector: 'app-department-list',
-  imports: [],
+  imports: [DepartmentCard, DepartmentTable],
   templateUrl: './department-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class DepartmentList {
-  protected readonly eyebrow = signal('Departments Page');
-  protected readonly title = signal('Department List');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  protected readonly departments = inject(Departments);
+  private readonly router = inject(Router);
+
+  protected onSearch(event: Event): void {
+    this.departments.setSearch((event.target as HTMLInputElement).value);
+  }
+
+  protected onStatusChange(event: Event): void {
+    this.departments.setStatus((event.target as HTMLSelectElement).value as DepartmentStatusFilter);
+  }
+
+  protected openDepartment(departmentId: string): void {
+    void this.router.navigate(['/departments', departmentId]);
+  }
 }

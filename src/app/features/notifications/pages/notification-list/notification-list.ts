@@ -1,19 +1,39 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+
+import { Permissions } from '../../../../core/services/permissions';
+import { NotificationCard } from '../../components/notification-card/notification-card';
+import { type NotificationStatusFilter } from '../../models/notification.model';
+import { Notifications } from '../../services/notifications';
 
 @Component({
   selector: 'app-notification-list',
-  imports: [],
+  imports: [NotificationCard],
   templateUrl: './notification-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class NotificationList {
-  protected readonly eyebrow = signal('Notifications Page');
-  protected readonly title = signal('Notification List');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  protected readonly notifications = inject(Notifications);
+  private readonly permissions = inject(Permissions);
+  protected readonly canManageNotifications = computed(() => this.permissions.can('notifications.create'));
+
+  protected onSearch(event: Event): void {
+    this.notifications.setSearch((event.target as HTMLInputElement).value);
+  }
+
+  protected onStatusChange(event: Event): void {
+    this.notifications.setStatus((event.target as HTMLSelectElement).value as NotificationStatusFilter);
+  }
+
+  protected publishNotification(notificationId: string): void {
+    if (this.canManageNotifications()) {
+      this.notifications.publish(notificationId);
+    }
+  }
+
+  protected archiveNotification(notificationId: string): void {
+    if (this.canManageNotifications()) {
+      this.notifications.archive(notificationId);
+    }
+  }
 }

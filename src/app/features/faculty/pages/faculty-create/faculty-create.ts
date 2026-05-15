@@ -1,19 +1,27 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+
+import { FacultyForm } from '../../components/faculty-form/faculty-form';
+import { type FacultyFormValue } from '../../models/faculty.model';
+import { Faculty } from '../../services/faculty';
 
 @Component({
   selector: 'app-faculty-create',
-  imports: [],
+  imports: [RouterLink, FacultyForm],
   templateUrl: './faculty-create.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class FacultyCreate {
-  protected readonly eyebrow = signal('Faculty Page');
-  protected readonly title = signal('Faculty Create');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  private readonly faculty = inject(Faculty);
+  private readonly router = inject(Router);
+
+  protected saveFaculty(value: FacultyFormValue): void {
+    const member = this.faculty.createFacultyMember(value);
+    void this.router.navigate(['/faculty', member.$id]);
+  }
+
+  protected cancel(): void {
+    void this.router.navigate(['/faculty']);
+  }
 }

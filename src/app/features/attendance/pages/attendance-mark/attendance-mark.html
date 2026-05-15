@@ -1,26 +1,89 @@
-<section class="space-y-6" aria-labelledby="attendance-mark-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="attendance-mark-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
+<section class="space-y-8" aria-labelledby="attendance-mark-title">
+  <header class="grid gap-8 border-b border-[#e6dfd8] pb-8 lg:grid-cols-[1fr_auto]">
+    <div class="max-w-3xl">
+      <a
+        routerLink="/attendance"
+        class="text-sm font-medium text-[#6c6a64] hover:text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c]"
+      >
+        Back to attendance
+      </a>
+      <p class="mt-5 text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Attendance</p>
+      <h1 id="attendance-mark-title" class="mt-3 font-serif text-5xl font-normal leading-[1.05] text-[#141413]">
+        Mark Records
+      </h1>
+      <p class="mt-4 text-base leading-7 text-[#3d3d3a]">
+        Static development workflow for updating session attendance before Appwrite writes are enabled.
+      </p>
     </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
-    >
-      Configure
-    </button>
+
+    @if (session(); as sessionValue) {
+      <button
+        type="button"
+        class="inline-flex min-h-10 items-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5] disabled:cursor-not-allowed disabled:bg-[#e6dfd8] disabled:text-[#8e8b82]"
+        [disabled]="!canEditSession()"
+        (click)="submitSession()"
+      >
+        Submit session
+      </button>
+    }
   </header>
 
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
-      <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
+  <section class="rounded-xl bg-[#181715] p-5 text-[#faf9f5]" aria-label="Mark attendance controls">
+    <div class="grid gap-4 md:grid-cols-[1fr_auto]">
+      <label class="block space-y-2">
+        <span class="text-sm font-medium text-[#faf9f5]">Session</span>
+        <select
+          class="min-h-10 w-full rounded-lg border border-[#252320] bg-[#1f1e1b] px-3 text-sm text-[#faf9f5] outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20"
+          [value]="selectedSessionId()"
+          (change)="onSessionChange($event)"
+        >
+          @for (sessionItem of attendance.sessions(); track sessionItem.$id) {
+            <option [value]="sessionItem.$id">
+              {{ sessionItem.courseCode }} · {{ sessionItem.courseTitle }} · {{ sessionItem.sessionDate }}
+            </option>
+          }
+        </select>
+      </label>
+
+      @if (summary(); as summaryValue) {
+        <div class="grid min-w-64 grid-cols-2 gap-3 rounded-lg bg-[#1f1e1b] p-3 text-sm">
+          <div>
+            <p class="text-[#a09d96]">Attendance</p>
+            <p class="mt-1 font-medium">{{ summaryValue.percentage }}%</p>
+          </div>
+          <div>
+            <p class="text-[#a09d96]">Records</p>
+            <p class="mt-1 font-medium">{{ summaryValue.total }}</p>
+          </div>
         </div>
-      </article>
-    }
-  </div>
+      }
+    </div>
+  </section>
+
+  @if (session(); as sessionValue) {
+    <section class="rounded-xl bg-[#efe9de] p-5 text-[#141413]" aria-label="Selected session">
+      <div class="grid gap-5 md:grid-cols-[1fr_auto]">
+        <div>
+          <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">
+            {{ sessionValue.courseCode }} · {{ sessionValue.status }}
+          </p>
+          <h2 class="mt-3 font-serif text-3xl font-normal">{{ sessionValue.courseTitle }}</h2>
+          <p class="mt-2 text-sm text-[#3d3d3a]">
+            {{ sessionValue.facultyName }} · {{ sessionValue.room }} · {{ sessionValue.startsAt }}-{{ sessionValue.endsAt }}
+          </p>
+        </div>
+        @if (!canEditSession()) {
+          <p class="self-start rounded-lg bg-[#faf9f5] px-3 py-2 text-sm text-[#6c6a64]">
+            You can view this session, but cannot edit its records.
+          </p>
+        }
+      </div>
+    </section>
+
+    <app-attendance-table [records]="records()" [editable]="canEditSession()" (statusChange)="onStatusChange($event)" />
+  } @else {
+    <article class="rounded-xl bg-[#efe9de] p-8 text-[#3d3d3a]">
+      No attendance session is available in the development dataset.
+    </article>
+  }
 </section>

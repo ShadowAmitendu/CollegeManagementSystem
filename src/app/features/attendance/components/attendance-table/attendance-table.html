@@ -1,26 +1,49 @@
-<section class="space-y-6" aria-labelledby="attendance-table-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="attendance-table-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
-    </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
-    >
-      Configure
-    </button>
-  </header>
-
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
-      <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
-        </div>
-      </article>
-    }
+<div class="overflow-hidden rounded-xl border border-[#e6dfd8]">
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-[#e6dfd8] bg-[#faf9f5] text-left text-sm">
+      <thead class="bg-[#efe9de] text-xs uppercase tracking-[0.14em] text-[#6c6a64]">
+        <tr>
+          <th class="px-4 py-3 font-medium" scope="col">Student</th>
+          <th class="px-4 py-3 font-medium" scope="col">Roll no.</th>
+          <th class="px-4 py-3 font-medium" scope="col">Status</th>
+          <th class="px-4 py-3 font-medium" scope="col">Remarks</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-[#e6dfd8]">
+        @for (record of records(); track record.$id) {
+          <tr class="align-top">
+            <td class="px-4 py-4">
+              <p class="font-medium text-[#141413]">{{ record.studentName }}</p>
+              <p class="mt-1 text-xs text-[#6c6a64]">{{ record.studentId }}</p>
+            </td>
+            <td class="px-4 py-4 font-mono text-xs text-[#3d3d3a]">{{ record.rollNumber }}</td>
+            <td class="px-4 py-4">
+              @if (editable()) {
+                <label class="sr-only" [attr.for]="'attendance-status-' + record.$id">Attendance status</label>
+                <select
+                  class="min-h-10 w-36 rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm text-[#141413] outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20"
+                  [id]="'attendance-status-' + record.$id"
+                  [value]="record.status"
+                  (change)="onStatusChange(record.$id, $event)"
+                >
+                  @for (status of statuses; track status) {
+                    <option [value]="status">{{ statusLabel(status) }}</option>
+                  }
+                </select>
+              } @else {
+                <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium" [class]="statusClass(record.status)">
+                  {{ statusLabel(record.status) }}
+                </span>
+              }
+            </td>
+            <td class="px-4 py-4 text-[#3d3d3a]">{{ record.remarks ?? 'No remarks' }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td class="px-4 py-10 text-center text-[#6c6a64]" colspan="4">No attendance records found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
-</section>
+</div>

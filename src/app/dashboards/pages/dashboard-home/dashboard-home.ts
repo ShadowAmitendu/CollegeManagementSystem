@@ -1,20 +1,33 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { Auth } from '../../../core/services/auth';
+import { Permissions } from '../../../core/services/permissions';
+import { ActivityWidget } from '../../widgets/activity-widget/activity-widget';
+import { AttendanceWidget } from '../../widgets/attendance-widget/attendance-widget';
+import { CalendarWidget } from '../../widgets/calendar-widget/calendar-widget';
+import { LibraryWidget } from '../../widgets/library-widget/library-widget';
+import { NotificationWidget } from '../../widgets/notification-widget/notification-widget';
+import { PerformanceWidget } from '../../widgets/performance-widget/performance-widget';
+import { ResultsWidget } from '../../widgets/results-widget/results-widget';
+import { TimetableWidget } from '../../widgets/timetable-widget/timetable-widget';
 
 @Component({
   selector: 'app-dashboard-home',
-  imports: [],
+  imports: [
+    ActivityWidget,
+    AttendanceWidget,
+    CalendarWidget,
+    LibraryWidget,
+    NotificationWidget,
+    PerformanceWidget,
+    ResultsWidget,
+    TimetableWidget,
+  ],
   templateUrl: './dashboard-home.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class DashboardHome {
   protected readonly auth = inject(Auth);
-  protected readonly widgets = signal([
-    { title: 'Attendance', value: '0 sessions', description: 'Session-based attendance summaries will render here.', tone: 'cream' },
-    { title: 'Results', value: '0 records', description: 'Assessment publishing and review workflows are ready to connect.', tone: 'cream' },
-    { title: 'Library', value: '0 issues', description: 'Book circulation signals can be composed into this dashboard.', tone: 'cream' },
-    { title: 'Activity', value: 'Live', description: 'Realtime Appwrite events can feed this surface.', tone: 'dark' },
-  ]);
+  protected readonly permissions = inject(Permissions);
 }

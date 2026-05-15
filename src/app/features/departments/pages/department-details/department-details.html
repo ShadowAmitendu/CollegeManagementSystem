@@ -1,26 +1,40 @@
-<section class="space-y-6" aria-labelledby="department-details-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="department-details-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
-    </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
-    >
-      Configure
-    </button>
-  </header>
+@if (department(); as departmentValue) {
+  <section class="space-y-8" aria-labelledby="department-details-title">
+    <header class="rounded-xl bg-[#181715] p-6 text-[#faf9f5]">
+      <a routerLink="/departments" class="text-sm font-medium text-[#a09d96] hover:text-[#faf9f5] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">Back to departments</a>
+      <p class="mt-5 text-xs font-medium uppercase tracking-[0.14em] text-[#a09d96]">{{ departmentValue.code }} · {{ departmentValue.status }}</p>
+      <h1 id="department-details-title" class="mt-3 font-serif text-5xl font-normal leading-[1.05]">{{ departmentValue.name }}</h1>
+      <p class="mt-4 max-w-3xl text-base leading-7 text-[#d8d2ca]">{{ departmentValue.description }}</p>
+    </header>
 
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
+    <div class="grid gap-4 md:grid-cols-4">
+      <article class="rounded-xl bg-[#efe9de] p-5"><p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Students</p><p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ departmentValue.studentCount }}</p></article>
+      <article class="rounded-xl bg-[#efe9de] p-5"><p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Faculty</p><p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ departmentValue.facultyCount }}</p></article>
+      <article class="rounded-xl bg-[#efe9de] p-5"><p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Courses</p><p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ departmentValue.activeCourses }}</p></article>
+      <article class="rounded-xl bg-[#efe9de] p-5"><p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Programs</p><p class="mt-3 font-serif text-3xl font-normal text-[#141413]">{{ departmentValue.programs.length }}</p></article>
+    </div>
+
+    <section class="grid gap-4 lg:grid-cols-[1fr_20rem]">
       <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Programs</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          @for (program of departmentValue.programs; track program) {
+            <span class="rounded-full bg-[#faf9f5] px-3 py-1 text-sm font-medium text-[#141413]">{{ program }}</span>
+          }
         </div>
       </article>
-    }
-  </div>
-</section>
+      <article class="rounded-xl bg-[#efe9de] p-5">
+        <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Ownership</p>
+        <dl class="mt-4 space-y-3 text-sm">
+          <div><dt class="text-[#6c6a64]">HOD</dt><dd class="mt-1 font-medium text-[#141413]">{{ departmentValue.hodName }}</dd></div>
+          <div><dt class="text-[#6c6a64]">Building</dt><dd class="mt-1 font-medium text-[#141413]">{{ departmentValue.building }}</dd></div>
+        </dl>
+      </article>
+    </section>
+  </section>
+} @else {
+  <section class="rounded-xl bg-[#efe9de] p-8 text-[#3d3d3a]">
+    <h1 class="font-serif text-3xl font-normal text-[#141413]">Department not found</h1>
+    <a routerLink="/departments" class="mt-5 inline-flex min-h-10 items-center rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white">Back to departments</a>
+  </section>
+}

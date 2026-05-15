@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+
+import { type AttendanceSessionStatusFilter } from '../../models/attendance.model';
 
 @Component({
   selector: 'app-attendance-filter',
@@ -8,12 +10,18 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   host: { class: 'block' },
 })
 export class AttendanceFilter {
-  protected readonly eyebrow = signal('Attendance Component');
-  protected readonly title = signal('Attendance Filter');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  readonly search = input('');
+  readonly selectedStatus = input<AttendanceSessionStatusFilter>('all');
+  readonly searchChange = output<string>();
+  readonly statusChange = output<AttendanceSessionStatusFilter>();
+
+  protected onSearch(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.searchChange.emit(inputElement.value);
+  }
+
+  protected onStatusChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    this.statusChange.emit(selectElement.value as AttendanceSessionStatusFilter);
+  }
 }

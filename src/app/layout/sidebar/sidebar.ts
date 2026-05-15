@@ -2,14 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { Permissions } from '../../core/services/permissions';
-import { ROUTE_PERMISSIONS } from '../../core/utils/constants';
-import { type PermissionCode } from '../../core/utils/permissions';
-
-interface NavItem {
-  readonly label: string;
-  readonly path: string;
-  readonly permission?: PermissionCode;
-}
+import { DASHBOARD_NAV_ITEMS } from '../navigation/navigation.config';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,18 +13,7 @@ interface NavItem {
 })
 export class Sidebar {
   private readonly permissions = inject(Permissions);
-
-  private readonly navItems = signal<readonly NavItem[]>([
-    { label: 'Dashboard', path: '/dashboard' },
-    { label: 'Students', path: '/students', permission: ROUTE_PERMISSIONS.students },
-    { label: 'Faculty', path: '/faculty', permission: ROUTE_PERMISSIONS.faculty },
-    { label: 'Departments', path: '/departments', permission: ROUTE_PERMISSIONS.departments },
-    { label: 'Attendance', path: '/attendance', permission: ROUTE_PERMISSIONS.attendance },
-    { label: 'Library', path: '/library/books', permission: ROUTE_PERMISSIONS.library },
-    { label: 'Results', path: '/results', permission: ROUTE_PERMISSIONS.results },
-    { label: 'Notifications', path: '/notifications', permission: ROUTE_PERMISSIONS.notifications },
-    { label: 'Settings', path: '/settings/profile', permission: ROUTE_PERMISSIONS.settings },
-  ]);
+  private readonly navItems = signal(DASHBOARD_NAV_ITEMS);
 
   protected readonly visibleNavItems = computed(() =>
     this.navItems().filter((item) => !item.permission || this.permissions.can(item.permission)),

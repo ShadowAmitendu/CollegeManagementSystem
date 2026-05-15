@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+
+import { type FacultyMember } from '../../models/faculty.model';
 
 @Component({
   selector: 'app-faculty-card',
@@ -8,12 +10,12 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   host: { class: 'block' },
 })
 export class FacultyCard {
-  protected readonly eyebrow = signal('Faculty Component');
-  protected readonly title = signal('Faculty Card');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  readonly faculty = input.required<FacultyMember>();
+  readonly viewFaculty = output<string>();
+  readonly editFaculty = output<string>();
+
+  protected readonly fullName = computed(() => `${this.faculty().firstName} ${this.faculty().lastName}`);
+  protected readonly statusClass = computed(() =>
+    this.faculty().status === 'active' ? 'bg-emerald-50 text-emerald-800' : 'bg-[#faf9f5] text-[#3d3d3a]',
+  );
 }

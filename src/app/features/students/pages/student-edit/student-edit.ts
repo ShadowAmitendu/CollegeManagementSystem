@@ -1,19 +1,36 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+
+import { StudentForm } from '../../components/student-form/student-form';
+import { type StudentFormValue } from '../../models/student.model';
+import { Students } from '../../services/students';
 
 @Component({
   selector: 'app-student-edit',
-  imports: [],
+  imports: [RouterLink, StudentForm],
   templateUrl: './student-edit.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class StudentEdit {
-  protected readonly eyebrow = signal('Students Page');
-  protected readonly title = signal('Student Edit');
-  protected readonly description = signal('Boilerplate surface ready for Appwrite-backed data, permission checks, and feature-specific orchestration.');
-  protected readonly metrics = signal([
-    { label: 'Records', value: '0', tone: 'bg-zinc-950 text-white' },
-    { label: 'Pending', value: '0', tone: 'bg-amber-100 text-amber-900' },
-    { label: 'Healthy', value: '100%', tone: 'bg-emerald-100 text-emerald-900' },
-  ]);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  protected readonly students = inject(Students);
+  protected readonly student = computed(() => this.students.getStudent(this.route.snapshot.paramMap.get('id') ?? ''));
+
+  protected saveStudent(value: StudentFormValue): void {
+    const student = this.student();
+
+    if (!student) {
+      return;
+    }
+
+    this.students.updateStudent(student.$id, value);
+    void this.router.navigate(['/students', student.$id]);
+  }
+
+  protected cancel(): void {
+    const student = this.student();
+    void this.router.navigate(student ? ['/students', student.$id] : ['/students']);
+  }
 }

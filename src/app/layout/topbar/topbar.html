@@ -1,12 +1,25 @@
-<header class="flex min-h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+<header class="flex min-h-16 flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
   <a href="#main-content" class="sr-only focus:not-sr-only focus:rounded-lg focus:bg-[#181715] focus:px-3 focus:py-2 focus:text-[#faf9f5]">
     Skip to content
   </a>
 
-  <div>
+  <div class="min-w-44">
     <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Workspace</p>
-    <p class="text-sm font-medium text-[#141413]">Academic Operations</p>
+    <p class="text-sm font-medium text-[#141413]">{{ currentSection().label }}</p>
   </div>
+
+  @if (visibleSubNavItems().length > 0) {
+    <nav
+      class="order-last flex w-full gap-2 overflow-x-auto border-t border-[#e6dfd8] pt-3 lg:order-none lg:w-auto lg:border-t-0 lg:pt-0"
+      aria-label="Section navigation"
+    >
+      @for (item of visibleSubNavItems(); track item.path) {
+        <a [routerLink]="item.path" [class]="subNavLinkClass(item)">
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+  }
 
   <div class="flex items-center gap-3">
     <a routerLink="/notifications" class="rounded-lg border border-[#e6dfd8] bg-[#faf9f5] px-3 py-2 text-sm font-medium text-[#141413] hover:bg-[#f5f0e8] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">

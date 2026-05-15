@@ -1,0 +1,72 @@
+import { type Models } from 'appwrite';
+
+import { type Department } from '../models/department.model';
+
+const rowMeta = (id: string): Models.Row => ({
+  $id: id,
+  $sequence: id,
+  $createdAt: '2026-05-15T04:00:00.000Z',
+  $updatedAt: '2026-05-15T04:00:00.000Z',
+  $permissions: [],
+  $databaseId: 'college-management',
+  $tableId: 'departments',
+});
+
+export const DEPARTMENTS: readonly Department[] = [
+  {
+    ...rowMeta('dept-cse'),
+    code: 'CSE',
+    name: 'Computer Science',
+    description: 'Software systems, AI, data platforms, and computing foundations.',
+    hodFacultyId: 'fac-meera-iyer',
+    hodName: 'Dr. Meera Iyer',
+    building: 'Block B',
+    programs: ['B.Tech Computer Science', 'B.Tech Artificial Intelligence', 'M.Tech Data Engineering'],
+    studentCount: 324,
+    facultyCount: 28,
+    activeCourses: 42,
+    status: 'active',
+  },
+  {
+    ...rowMeta('dept-ece'),
+    code: 'ECE',
+    name: 'Electronics',
+    description: 'Embedded systems, communication engineering, circuit design, and robotics.',
+    hodFacultyId: 'fac-priya-nair',
+    hodName: 'Dr. Priya Nair',
+    building: 'Block C',
+    programs: ['B.Tech Electronics', 'M.Tech VLSI'],
+    studentCount: 218,
+    facultyCount: 18,
+    activeCourses: 29,
+    status: 'active',
+  },
+  {
+    ...rowMeta('dept-math'),
+    code: 'MAT',
+    name: 'Mathematics',
+    description: 'Core mathematics, statistics, discrete structures, and quantitative methods.',
+    hodFacultyId: 'fac-kavita-shah',
+    hodName: 'Dr. Kavita Shah',
+    building: 'Block A',
+    programs: ['B.Sc Mathematics', 'Applied Mathematics Minor'],
+    studentCount: 142,
+    facultyCount: 14,
+    activeCourses: 21,
+    status: 'active',
+  },
+  {
+    ...rowMeta('dept-me'),
+    code: 'ME',
+    name: 'Mechanical',
+    description: 'Design, manufacturing, thermal systems, materials, and industrial operations.',
+    hodFacultyId: 'fac-sandeep-rao',
+    hodName: 'Prof. Sandeep Rao',
+    building: 'Workshop Block',
+    programs: ['B.Tech Mechanical', 'M.Tech Thermal Engineering'],
+    studentCount: 176,
+    facultyCount: 16,
+    activeCourses: 24,
+    status: 'inactive',
+  },
+];

@@ -1,26 +1,44 @@
-<section class="space-y-6" aria-labelledby="results-table-title">
-  <header class="grid gap-6 border-b border-[#e6dfd8] pb-6 lg:grid-cols-[1fr_auto]">
-    <div class="space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ eyebrow() }}</p>
-      <h1 id="results-table-title" class="font-serif text-4xl font-normal leading-tight text-[#141413]">{{ title() }}</h1>
-      <p class="max-w-2xl text-sm leading-6 text-[#3d3d3a]">{{ description() }}</p>
-    </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center self-start rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white transition hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
-    >
-      Configure
-    </button>
-  </header>
-
-  <div class="grid gap-4 sm:grid-cols-3">
-    @for (metric of metrics(); track metric.label) {
-      <article class="rounded-xl bg-[#efe9de] p-5">
-        <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-[#6c6a64]">{{ metric.label }}</p>
-          <span class="rounded-full bg-[#faf9f5] px-2.5 py-1 text-xs font-medium text-[#141413]">{{ metric.value }}</span>
-        </div>
-      </article>
-    }
+<div class="overflow-hidden rounded-xl border border-[#e6dfd8]">
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-[#e6dfd8] bg-[#faf9f5] text-left text-sm">
+      <thead class="bg-[#efe9de] text-xs uppercase tracking-[0.14em] text-[#6c6a64]">
+        <tr>
+          <th class="px-4 py-3 font-medium" scope="col">Student</th>
+          <th class="px-4 py-3 font-medium" scope="col">Course</th>
+          <th class="px-4 py-3 font-medium" scope="col">Exam</th>
+          <th class="px-4 py-3 font-medium" scope="col">Score</th>
+          <th class="px-4 py-3 font-medium" scope="col">Status</th>
+          <th class="px-4 py-3 font-medium" scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-[#e6dfd8]">
+        @for (result of results(); track result.$id) {
+          <tr class="align-top">
+            <td class="px-4 py-4">
+              <p class="font-medium text-[#141413]">{{ result.studentName }}</p>
+              <p class="mt-1 text-xs text-[#6c6a64]">{{ result.rollNumber }}</p>
+            </td>
+            <td class="px-4 py-4 text-[#3d3d3a]">{{ result.courseCode }} · {{ result.courseTitle }}</td>
+            <td class="px-4 py-4 text-[#3d3d3a] capitalize">{{ result.examType }}</td>
+            <td class="px-4 py-4 text-[#3d3d3a]">{{ result.marksObtained }}/{{ result.maximumMarks }} · {{ percentage(result) }}%</td>
+            <td class="px-4 py-4 text-[#3d3d3a] capitalize">{{ result.status }}</td>
+            <td class="px-4 py-4">
+              <div class="flex gap-2">
+                <button type="button" class="rounded-lg border border-[#e6dfd8] px-3 py-2 text-xs font-medium text-[#141413] hover:bg-[#f5f0e8] focus:outline-none focus:ring-2 focus:ring-[#cc785c]" (click)="viewResult.emit(result.$id)">
+                  Details
+                </button>
+                <button type="button" class="rounded-lg bg-[#181715] px-3 py-2 text-xs font-medium text-[#faf9f5] hover:bg-[#252320] focus:outline-none focus:ring-2 focus:ring-[#cc785c] disabled:cursor-not-allowed disabled:bg-[#e6dfd8] disabled:text-[#8e8b82]" [disabled]="!canPublish() || result.status !== 'draft'" (click)="publishResult.emit(result.$id)">
+                  Publish
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td class="px-4 py-10 text-center text-[#6c6a64]" colspan="6">No results match the current filters.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
-</section>
+</div>
