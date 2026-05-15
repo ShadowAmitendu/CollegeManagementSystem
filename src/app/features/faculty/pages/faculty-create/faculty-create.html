@@ -1,1 +1,26 @@
-<p>faculty-create works!</p>
+<section class="space-y-6" aria-labelledby="faculty-create-title">
+  <header class="flex flex-col gap-3 border-b border-zinc-200 pb-5 sm:flex-row sm:items-end sm:justify-between">
+    <div class="space-y-2">
+      <p class="text-xs font-medium uppercase tracking-wide text-zinc-500">{{ eyebrow() }}</p>
+      <h1 id="faculty-create-title" class="text-2xl font-semibold tracking-normal text-zinc-950">{{ title() }}</h1>
+      <p class="max-w-2xl text-sm leading-6 text-zinc-600">{{ description() }}</p>
+    </div>
+    <button
+      type="button"
+      class="inline-flex min-h-10 items-center justify-center rounded-xl border border-zinc-300 bg-white px-4 text-sm font-medium text-zinc-900 shadow-sm transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-950 focus:ring-offset-2"
+    >
+      Configure
+    </button>
+  </header>
+
+  <div class="grid gap-4 sm:grid-cols-3">
+    @for (metric of metrics(); track metric.label) {
+      <article class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between gap-4">
+          <p class="text-sm font-medium text-zinc-600">{{ metric.label }}</p>
+          <span class="rounded-full px-2.5 py-1 text-xs font-medium" [class]="metric.tone">{{ metric.value }}</span>
+        </div>
+      </article>
+    }
+  </div>
+</section>

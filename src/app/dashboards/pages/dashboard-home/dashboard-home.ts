@@ -1,0 +1,18 @@
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+
+@Component({
+  selector: 'app-dashboard-home',
+  imports: [],
+  templateUrl: './dashboard-home.html',
+  styleUrl: './dashboard-home.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'block' },
+})
+export class DashboardHome {
+  protected readonly widgets = signal([
+    { title: 'Attendance', value: '0 sessions', description: 'Session-based attendance summaries will render here.' },
+    { title: 'Results', value: '0 records', description: 'Assessment publishing and review workflows are ready to connect.' },
+    { title: 'Library', value: '0 issues', description: 'Book circulation signals can be composed into this dashboard.' },
+    { title: 'Activity', value: 'Live', description: 'Realtime Appwrite events can feed this surface.' },
+  ]);
+}
