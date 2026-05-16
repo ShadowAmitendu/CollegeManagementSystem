@@ -9,5 +9,5 @@ import { RouterOutlet } from '@angular/router';
   host: { class: 'block min-h-dvh bg-[#faf9f5] text-[#141413]' },
 })
 export class App {
-  protected readonly title = signal('CollegeManagementSystem');
+  protected readonly title = signal('College Management System');
 }

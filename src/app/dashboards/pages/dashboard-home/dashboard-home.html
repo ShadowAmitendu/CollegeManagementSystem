@@ -2,18 +2,26 @@
   <header class="grid gap-8 border-b border-[#e6dfd8] pb-8 lg:grid-cols-[1fr_26rem]">
     <div>
       <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Dashboard</p>
-      <h1 id="dashboard-title" class="mt-3 font-serif text-5xl font-normal leading-[1.05] text-[#141413]">
+      <h1
+        id="dashboard-title"
+        class="mt-3 font-serif text-5xl font-normal leading-[1.05] text-[#141413]"
+      >
         College Operations
       </h1>
       <p class="mt-4 max-w-2xl text-base leading-7 text-[#3d3d3a]">
-        Permission-driven operational widgets backed by the same feature services used across the app.
+        Permission-driven operational widgets backed by the same feature services used across the
+        app.
       </p>
       @if (auth.user(); as user) {
         <div class="mt-5 flex flex-wrap items-center gap-2">
-          <span class="rounded-full bg-[#cc785c] px-3 py-1 text-xs font-medium text-white">{{ user.name }}</span>
-        @for (role of user.roles; track role) {
-            <span class="rounded-full bg-[#efe9de] px-3 py-1 text-xs font-medium text-[#141413]">{{ role }}</span>
-        }
+          <span class="rounded-full bg-[#cc785c] px-3 py-1 text-xs font-medium text-white">{{
+            user.name
+          }}</span>
+          @for (role of user.roles; track role) {
+            <span class="rounded-full bg-[#efe9de] px-3 py-1 text-xs font-medium text-[#141413]">{{
+              role
+            }}</span>
+          }
           <span class="rounded-full bg-[#efe9de] px-3 py-1 text-xs font-medium text-[#141413]">
             {{ user.permissions.length }} permissions
           </span>
@@ -63,9 +71,12 @@
 
   <section class="rounded-xl bg-[#cc785c] p-8 text-white">
     <div class="max-w-3xl">
-      <h2 class="font-serif text-3xl font-normal leading-tight">Build the next workflow from a role, not a page.</h2>
+      <h2 class="font-serif text-3xl font-normal leading-tight">
+        Build the next workflow from a role, not a page.
+      </h2>
       <p class="mt-3 text-sm leading-6 text-white/85">
-        Every feature route is already guarded through centralized permissions, so Appwrite-backed modules can plug into the same surface.
+        Every feature route is already guarded through centralized permissions, so Appwrite-backed
+        modules can plug into the same surface.
       </p>
     </div>
   </section>
