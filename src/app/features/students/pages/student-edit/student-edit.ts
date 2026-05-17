@@ -18,14 +18,14 @@ export class StudentEdit {
   protected readonly students = inject(Students);
   protected readonly student = computed(() => this.students.getStudent(this.route.snapshot.paramMap.get('id') ?? ''));
 
-  protected saveStudent(value: StudentFormValue): void {
+  protected async saveStudent(value: StudentFormValue): Promise<void> {
     const student = this.student();
 
     if (!student) {
       return;
     }
 
-    this.students.updateStudent(student.$id, value);
+    await this.students.updateStudent(student.$id, value);
     void this.router.navigate(['/students', student.$id]);
   }
 

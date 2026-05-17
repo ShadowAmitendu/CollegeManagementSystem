@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-attendance-summary',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink],
   templateUrl: './attendance-summary.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' }

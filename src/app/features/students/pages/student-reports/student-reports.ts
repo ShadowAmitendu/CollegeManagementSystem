@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-student-reports',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink],
   templateUrl: './student-reports.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' }
 })
 export class StudentReports {
-  protected readonly data = signal([
+  readonly data = signal([
     {
         "id": 1,
         "reportname": "Mid-Term Defaulters",

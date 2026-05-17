@@ -18,12 +18,12 @@ export class StudentCreate {
   private readonly router = inject(Router);
   private readonly permissions = inject(Permissions);
 
-  protected saveStudent(value: StudentFormValue): void {
+  protected async saveStudent(value: StudentFormValue): Promise<void> {
     if (!this.permissions.hasAnyRole(['admin', 'principal', 'hod', 'professor'])) {
       alert('Access Denied: You do not have permission to add students.');
       return;
     }
-    const student = this.students.createStudent(value);
+    const student = await this.students.createStudent(value);
     void this.router.navigate(['/students', student.$id]);
   }
 

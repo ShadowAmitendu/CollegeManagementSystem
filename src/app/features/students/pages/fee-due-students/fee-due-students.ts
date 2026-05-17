@@ -4,7 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-fee-due-students',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink],
   templateUrl: './fee-due-students.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' }

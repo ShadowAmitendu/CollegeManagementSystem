@@ -22,40 +22,53 @@
     </label>
     <label class="block space-y-2">
       <span class="text-sm font-medium text-[#141413]">Program</span>
-      <input class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="program" />
+      <select class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="program">
+        @for (program of programs; track program) {
+          <option [value]="program">{{ program }}</option>
+        }
+      </select>
     </label>
     <label class="block space-y-2">
-      <span class="text-sm font-medium text-[#141413]">Department ID</span>
-      <input class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="departmentId" />
-    </label>
-    <label class="block space-y-2">
-      <span class="text-sm font-medium text-[#141413]">Department name</span>
-      <input class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="departmentName" />
+      <span class="text-sm font-medium text-[#141413]">Department</span>
+      <select class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="departmentId" (change)="onDepartmentChange($event)">
+        @for (dept of departments; track dept.id) {
+          <option [value]="dept.id">{{ dept.name }}</option>
+        }
+      </select>
     </label>
     <label class="block space-y-2">
       <span class="text-sm font-medium text-[#141413]">Section</span>
-      <input class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="section" />
+      <select class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="section">
+        @for (section of sections; track section) {
+          <option [value]="section">{{ section }}</option>
+        }
+      </select>
     </label>
     <label class="block space-y-2">
       <span class="text-sm font-medium text-[#141413]">Advisor</span>
-      <input class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="advisorName" />
+      <select class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="advisorName">
+        @for (advisor of advisors; track advisor) {
+          <option [value]="advisor">{{ advisor }}</option>
+        }
+      </select>
     </label>
     <label class="block space-y-2">
       <span class="text-sm font-medium text-[#141413]">Semester</span>
-      <input type="number" class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="semester" />
+      <select class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="semester">
+        @for (sem of semesters; track sem) {
+          <option [value]="sem">{{ sem }}</option>
+        }
+      </select>
     </label>
     <label class="block space-y-2">
       <span class="text-sm font-medium text-[#141413]">Enrollment year</span>
-      <input type="number" class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="enrollmentYear" />
+      <select class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="enrollmentYear">
+        @for (year of enrollmentYears; track year) {
+          <option [value]="year">{{ year }}</option>
+        }
+      </select>
     </label>
-    <label class="block space-y-2">
-      <span class="text-sm font-medium text-[#141413]">CGPA</span>
-      <input type="number" step="0.1" class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="cgpa" />
-    </label>
-    <label class="block space-y-2">
-      <span class="text-sm font-medium text-[#141413]">Attendance %</span>
-      <input type="number" class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="attendancePercentage" />
-    </label>
+
     <label class="block space-y-2">
       <span class="text-sm font-medium text-[#141413]">Status</span>
       <select class="min-h-10 w-full rounded-lg border border-[#e6dfd8] bg-white px-3 text-sm capitalize outline-none focus:border-[#cc785c] focus:ring-4 focus:ring-[#cc785c]/20" formControlName="status">

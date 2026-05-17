@@ -2,19 +2,26 @@ import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 
 import { Permissions } from '../../../../core/services/permissions';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { Students } from '../../services/students';
+import { StudentFormValue } from '../../models/student.model';
 
 @Component({
   selector: 'app-import-students',
-  imports: [DecimalPipe, RouterLink, RouterLinkActive],
+  imports: [DecimalPipe],
   templateUrl: './import-students.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
 })
 export class ImportStudents {
   private readonly permissions = inject(Permissions);
+  private readonly studentsService = inject(Students);
   
-  protected readonly canImport = computed(() => this.permissions.can('students.create') || this.permissions.can('students.manage'));
+  protected readonly canImport = computed(() => 
+    this.permissions.can('students.create') || 
+    this.permissions.can('students.manage') ||
+    this.permissions.hasAnyRole(['admin', 'principal', 'hod', 'professor'])
+  );
 
   protected isDragging = signal(false);
   protected selectedFile = signal<File | null>(null);
@@ -66,11 +73,37 @@ export class ImportStudents {
 
     this.isUploading.set(true);
     
-    // Simulate Appwrite File Upload & Processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    this.isUploading.set(false);
-    this.uploadSuccess.set(true);
-    this.selectedFile.set(null);
+    try {
+      const text = await file.text();
+      const lines = text.split('\n');
+      const headers = lines[0].split(',').map(h => h.trim());
+      
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        const values = line.split(',').map(v => v.trim());
+        const studentData: any = {};
+        headers.forEach((header, index) => {
+          studentData[header] = values[index];
+        });
+        
+        if (studentData.semester) studentData.semester = parseInt(studentData.semester, 10);
+        if (studentData.enrollmentYear) studentData.enrollmentYear = parseInt(studentData.enrollmentYear, 10);
+        
+        studentData.cgpa = 0;
+        studentData.attendancePercentage = 0;
+        studentData.status = 'active';
+
+        await this.studentsService.createStudent(studentData as StudentFormValue);
+      }
+      
+      this.uploadSuccess.set(true);
+      this.selectedFile.set(null);
+    } catch (error) {
+      console.error('Failed to import students', error);
+      alert('Failed to import students. Please check the file format.');
+    } finally {
+      this.isUploading.set(false);
+    }
   }
 }

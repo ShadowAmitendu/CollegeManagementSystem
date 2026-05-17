@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-graduated-students',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink],
   templateUrl: './graduated-students.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' }

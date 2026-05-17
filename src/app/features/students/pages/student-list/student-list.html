@@ -1,45 +1,15 @@
 <section class="space-y-8" aria-labelledby="student-list-title">
   <div class="mb-6 flex items-end justify-between">
     <div>
-      <nav class="flex text-sm text-[#6c6a64] mb-2" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-3">
-          <li class="inline-flex items-center">
-            <span class="hover:text-[#141413]">Workspace</span>
-          </li>
-          <li>
-            <div class="flex items-center">
-              <svg class="w-3 h-3 mx-1 text-[#e6dfd8]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
-              <a routerLink="/students" class="hover:text-[#141413] ml-1 md:ml-2">Students</a>
-            </div>
-          </li>
-          <li aria-current="page">
-            <div class="flex items-center">
-              <svg class="w-3 h-3 mx-1 text-[#e6dfd8]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
-              <span class="ml-1 md:ml-2 font-medium text-[#141413]">Directory</span>
-            </div>
-          </li>
-        </ol>
-      </nav>
+
       <h1 class="font-serif text-3xl font-normal text-[#141413]">Directory</h1>
     </div>
     @if (canCreateStudent()) {
       <div class="flex gap-3">
         <a routerLink="/students/create" class="rounded-lg bg-[#cc785c] px-4 py-2 text-sm font-medium text-white hover:bg-[#a9583e]">Add New</a>
+        <a routerLink="/students/import" class="rounded-lg border border-[#e6dfd8] bg-[#faf9f5] px-4 py-2 text-sm font-medium text-[#141413] hover:bg-[#f5f0e8]">Upload CSV</a>
       </div>
     }
-  </div>
-  <div class="mb-8 border-b border-[#e6dfd8] overflow-x-auto">
-    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-      <a routerLink="/students" routerLinkActive="border-[#cc785c] text-[#cc785c]" [routerLinkActiveOptions]="{exact: true}" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Directory</a>
-      <a routerLink="/students/analytics" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Analytics</a>
-      <a routerLink="/students/import" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Import</a>
-      <a routerLink="/students/attendance-summary" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Attendance</a>
-      <a routerLink="/students/defaulters" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Defaulters</a>
-      <a routerLink="/students/fee-due" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Fee Dues</a>
-      <a routerLink="/students/graduated" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Alumni</a>
-      <a routerLink="/students/cr-management" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">CRs</a>
-      <a routerLink="/students/reports" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Reports</a>
-    </nav>
   </div>
 
   <div class="grid gap-4 md:grid-cols-5">
@@ -79,19 +49,5 @@
     </div>
   </section>
 
-  <div class="grid gap-4 lg:grid-cols-3">
-    @for (student of students.filteredRows(); track student.$id) {
-      <app-student-card [student]="student" (viewStudent)="openStudent($event)" (editStudent)="editStudent($event)" />
-    } @empty {
-      <article class="rounded-xl bg-[#efe9de] p-8 text-[#3d3d3a] lg:col-span-3">No students match the current filters.</article>
-    }
-  </div>
-
-  <section class="space-y-4">
-    <div>
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Detailed list</p>
-      <h2 class="mt-2 font-serif text-3xl font-normal text-[#141413]">Student table</h2>
-    </div>
-    <app-student-table [students]="students.filteredRows()" (viewStudent)="openStudent($event)" (editStudent)="editStudent($event)" />
-  </section>
+  <app-student-table [students]="students.filteredRows()" (viewStudent)="openStudent($event)" (editStudent)="editStudent($event)" />
 </section>

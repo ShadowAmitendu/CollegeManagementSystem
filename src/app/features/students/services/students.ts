@@ -1,13 +1,16 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 
-import { STUDENTS } from '../data/students-static-data';
-import { type Student, type StudentFormValue, type StudentStatusFilter } from '../models/student.model';
+import { StudentApi } from './student-api';
+import { AppwriteAuth } from '../../../core/appwrite/appwrite-auth';
+import { type CreateStudentPayload, type Student, type StudentFormValue, type StudentStatusFilter } from '../models/student.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Students {
-  private readonly rowsSignal = signal<readonly Student[]>(STUDENTS);
+  private readonly api = inject(StudentApi);
+  private readonly appwriteAuth = inject(AppwriteAuth);
+  private readonly rowsSignal = signal<readonly Student[]>([]);
   private readonly searchSignal = signal('');
   private readonly departmentSignal = signal('all');
   private readonly statusSignal = signal<StudentStatusFilter>('all');
@@ -16,6 +19,10 @@ export class Students {
   readonly search = this.searchSignal.asReadonly();
   readonly selectedDepartment = this.departmentSignal.asReadonly();
   readonly selectedStatus = this.statusSignal.asReadonly();
+
+  constructor() {
+    void this.load();
+  }
 
   readonly departments = computed(() =>
     Array.from(new Set(this.rowsSignal().map((student) => student.departmentName))).sort((first, second) =>
@@ -64,7 +71,12 @@ export class Students {
   });
 
   async load(): Promise<void> {
-    return Promise.resolve();
+    try {
+      const response = await this.api.list();
+      this.rowsSignal.set(response.rows);
+    } catch (error) {
+      console.error('Failed to load students', error);
+    }
   }
 
   setSearch(value: string): void {
@@ -83,32 +95,31 @@ export class Students {
     return this.rowsSignal().find((student) => student.$id === studentId);
   }
 
-  createStudent(value: StudentFormValue): Student {
-    const id = `stu-${value.admissionNumber.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}`;
-    const now = new Date().toISOString();
-    const student: Student = {
-      ...value,
-      $id: id,
-      $sequence: id,
-      $createdAt: now,
-      $updatedAt: now,
-      $permissions: [],
-      $databaseId: 'college-management',
-      $tableId: 'students',
-      userId: `usr-${value.admissionNumber.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}`,
-    };
+  async createStudent(value: StudentFormValue): Promise<Student> {
+    const name = `${value.firstName} ${value.lastName}`;
+    const password = 'Welcome@CMS123'; // Default password
+    
+    const account = await this.appwriteAuth.createAccount(value.email, password, name);
+    const userId = account.$id;
 
+    const payload: CreateStudentPayload = {
+      ...value,
+      userId,
+    };
+    const student = await this.api.create(payload);
     this.rowsSignal.update((rows) => [student, ...rows]);
     return student;
   }
 
-  updateStudent(studentId: string, value: StudentFormValue): void {
+  async updateStudent(studentId: string, value: StudentFormValue): Promise<void> {
+    const updated = await this.api.update(studentId, value);
     this.rowsSignal.update((rows) =>
-      rows.map((student) => (student.$id === studentId ? { ...student, ...value, $updatedAt: new Date().toISOString() } : student)),
+      rows.map((student) => (student.$id === studentId ? updated : student)),
     );
   }
 
-  deleteStudent(studentId: string): void {
+  async deleteStudent(studentId: string): Promise<void> {
+    await this.api.delete(studentId);
     this.rowsSignal.update((rows) => rows.filter((student) => student.$id !== studentId));
   }
 }

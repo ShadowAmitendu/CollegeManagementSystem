@@ -2,14 +2,13 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { Permissions } from '../../../../core/services/permissions';
-import { StudentCard } from '../../components/student-card/student-card';
 import { StudentTable } from '../../components/student-table/student-table';
 import { type StudentStatusFilter } from '../../models/student.model';
 import { Students } from '../../services/students';
 
 @Component({
   selector: 'app-student-list',
-  imports: [StudentCard, StudentTable, RouterLink, RouterLinkActive],
+  imports: [StudentTable, RouterLink],
   templateUrl: './student-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },

@@ -4,13 +4,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-cr-management',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink],
   templateUrl: './cr-management.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' }
 })
 export class CrManagement {
-  protected readonly data = signal([
+  readonly data = signal([
     {
         "id": "CS-2025-012",
         "name": "Jack Frost",

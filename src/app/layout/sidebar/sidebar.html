@@ -17,12 +17,20 @@
     }
   </nav>
 
-  <div class="mt-auto rounded-xl bg-[#181715] p-4 text-[#faf9f5]">
-    <p class="font-mono text-xs text-[#a09d96]">Realtime</p>
-    <p class="mt-2 text-sm font-medium">Ready for Appwrite events</p>
-    <div class="mt-4 flex items-center gap-2 text-xs text-[#a09d96]">
-      <span class="size-2 rounded-full bg-[#5db8a6]"></span>
-      Offline-safe dev auth
-    </div>
+  <div class="mt-auto border-t border-[#e6dfd8] pt-4">
+    @if (auth.user(); as user) {
+
+      <div class="space-y-1">
+        <a routerLink="/settings/profile" class="block rounded-lg px-3 py-2 text-sm font-medium text-[#6c6a64] hover:bg-[#f5f0e8] hover:text-[#141413]">Profile</a>
+        <a routerLink="/settings" class="block rounded-lg px-3 py-2 text-sm font-medium text-[#6c6a64] hover:bg-[#f5f0e8] hover:text-[#141413]">Settings</a>
+        <button
+          type="button"
+          class="w-full text-left rounded-lg px-3 py-2 text-sm font-medium text-[#cc785c] hover:bg-[#fdfbfa]"
+          (click)="signOut()"
+        >
+          Sign out
+        </button>
+      </div>
+    }
   </div>
 </aside>

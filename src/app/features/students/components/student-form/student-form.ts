@@ -19,21 +19,47 @@ export class StudentForm {
   private readonly formBuilder = inject(NonNullableFormBuilder);
 
   protected readonly statuses: readonly StudentStatus[] = ['active', 'inactive', 'graduated', 'suspended'];
+  
+  protected readonly programs = [
+    'B.Tech Computer Science',
+    'B.Tech Electronics',
+    'B.Tech Mechanical',
+    'B.Tech Civil',
+    'B.Sc Physics',
+    'B.Sc Mathematics',
+  ];
+
+  protected readonly departments = [
+    { id: 'dept-cse', name: 'Computer Science' },
+    { id: 'dept-ece', name: 'Electronics & Communication' },
+    { id: 'dept-me', name: 'Mechanical Engineering' },
+    { id: 'dept-ce', name: 'Civil Engineering' },
+  ];
+
+  protected readonly advisors = [
+    'Dr. Aris Thorne',
+    'Dr. Elena Rostova',
+    'Prof. Julian Vance',
+    'Dr. Sarah Jenkins',
+  ];
+
+  protected readonly sections = ['A', 'B', 'C', 'D'];
+  protected readonly semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+  protected readonly enrollmentYears = [2023, 2024, 2025, 2026, 2027];
+
   protected readonly form = this.formBuilder.group({
-    admissionNumber: ['', [Validators.required]],
+    admissionNumber: [''],
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required]],
+    phone: [''],
     departmentId: ['', [Validators.required]],
     departmentName: ['', [Validators.required]],
     program: ['', [Validators.required]],
     section: ['', [Validators.required]],
     semester: [1, [Validators.required, Validators.min(1), Validators.max(12)]],
     enrollmentYear: [2026, [Validators.required, Validators.min(2000)]],
-    advisorName: ['', [Validators.required]],
-    cgpa: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
-    attendancePercentage: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
+    advisorName: [''],
     status: ['active' as StudentStatus, [Validators.required]],
   });
 
@@ -54,8 +80,6 @@ export class StudentForm {
         semester: student.semester,
         enrollmentYear: student.enrollmentYear,
         advisorName: student.advisorName,
-        cgpa: student.cgpa,
-        attendancePercentage: student.attendancePercentage,
         status: student.status,
       });
       return;
@@ -74,11 +98,20 @@ export class StudentForm {
       semester: 1,
       enrollmentYear: 2026,
       advisorName: '',
-      cgpa: 0,
-      attendancePercentage: 0,
       status: 'active',
     });
   });
+
+  protected onDepartmentChange(event: Event): void {
+    const id = (event.target as HTMLSelectElement).value;
+    const dept = this.departments.find(d => d.id === id);
+    if (dept) {
+      this.form.patchValue({
+        departmentId: dept.id,
+        departmentName: dept.name,
+      });
+    }
+  }
 
   protected submitForm(): void {
     if (this.form.invalid) {
@@ -86,6 +119,10 @@ export class StudentForm {
       return;
     }
 
-    this.save.emit(this.form.getRawValue());
+    this.save.emit({
+      ...this.form.getRawValue(),
+      cgpa: 0,
+      attendancePercentage: 0,
+    } as StudentFormValue);
   }
 }

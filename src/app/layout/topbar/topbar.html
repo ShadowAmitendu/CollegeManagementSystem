@@ -1,44 +1,73 @@
-<header class="flex min-h-16 flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-  <a href="#main-content" class="sr-only focus:not-sr-only focus:rounded-lg focus:bg-[#181715] focus:px-3 focus:py-2 focus:text-[#faf9f5]">
+<header class="flex min-h-14 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+  <a
+    href="#main-content"
+    class="sr-only focus:not-sr-only focus:rounded-lg focus:bg-[#181715] focus:px-3 focus:py-2 focus:text-[#faf9f5]"
+  >
     Skip to content
   </a>
 
-  <div class="min-w-44">
-    <p class="text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Workspace</p>
-    <p class="text-sm font-medium text-[#141413]">{{ currentSection().label }}</p>
+  <div class="flex items-center gap-1 text-xs font-semibold text-[#141413] tracking-wider w-60 shrink-0">
+    @for (crumb of displayBreadcrumbs(); track $index; let last = $last) {
+      @if (!last) {
+        <a [routerLink]="crumb.path" class="hover:text-[#cc785c] transition-colors uppercase">{{ crumb.label }}</a>
+        <svg class="w-3 h-3 mx-1 text-[#8e8b82]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+      } @else {
+        <span class="uppercase text-[#cc785c]">{{ crumb.label }}</span>
+      }
+    }
   </div>
 
   @if (visibleSubNavItems().length > 0) {
     <nav
-      class="order-last flex w-full gap-2 overflow-x-auto border-t border-[#e6dfd8] pt-3 lg:order-none lg:w-auto lg:border-t-0 lg:pt-0"
+      class="relative flex items-center gap-0.5 overflow-x-auto rounded-xl bg-[#eae4db]/60 p-1 border border-[#e6dfd8]/80"
       aria-label="Section navigation"
     >
+      <!-- Sliding indicator -->
+      <span
+        class="topbar-indicator absolute left-0 top-1 rounded-lg bg-white shadow-sm"
+        [style]="indicatorStyle()"
+        aria-hidden="true"
+      ></span>
+
       @for (item of visibleSubNavItems(); track item.path) {
-        <a [routerLink]="item.path" [class]="subNavLinkClass(item)">
+        <a
+          #tabLink
+          [routerLink]="item.path"
+          class="relative z-10 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
+          [class.text-[#141413]]="isSubNavActive(item)"
+          [class.text-[#8e8b82]]="!isSubNavActive(item)"
+          [class.hover:text-[#141413]]="!isSubNavActive(item)"
+        >
           {{ item.label }}
         </a>
       }
     </nav>
   }
 
-  <div class="flex items-center gap-3">
-    <a routerLink="/notifications" class="rounded-lg border border-[#e6dfd8] bg-[#faf9f5] px-3 py-2 text-sm font-medium text-[#141413] hover:bg-[#f5f0e8] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">
-      Notifications
+  <div class="flex items-center gap-4 shrink-0">
+    <a
+      routerLink="/notifications"
+      class="rounded-full p-2 text-[#6c6a64] hover:bg-[#efe9de] hover:text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c]"
+      aria-label="Notifications"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
     </a>
+
     @if (auth.user(); as user) {
-      <div class="hidden text-right sm:block">
-        <p class="text-sm font-medium text-[#141413]">{{ user.name }}</p>
-        <p class="text-xs text-[#6c6a64]">{{ user.roles[0] }}</p>
-      </div>
-      <button
-        type="button"
-        class="rounded-lg bg-[#cc785c] px-3 py-2 text-sm font-medium text-white hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
-        (click)="signOut()"
-      >
-        Sign out
-      </button>
+      <a routerLink="/settings/profile" class="flex items-center gap-3 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-[#cc785c] rounded-lg p-1">
+        <div class="text-right hidden sm:block">
+          <p class="text-sm font-medium text-[#141413]">{{ user.name }}</p>
+          <p class="text-xs text-[#6c6a64]">{{ user.roles[0] }}</p>
+        </div>
+        <div class="size-9 rounded-full bg-[#cc785c] text-white flex items-center justify-center font-bold">
+          {{ user.name.charAt(0).toUpperCase() }}
+        </div>
+      </a>
     } @else {
-      <a routerLink="/auth/login" class="rounded-lg bg-[#cc785c] px-3 py-2 text-sm font-medium text-white hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]">
+      <a
+        routerLink="/auth/login"
+        class="rounded-lg bg-[#cc785c] px-3 py-1.5 text-sm font-medium text-white hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#faf9f5]"
+      >
         Sign in
       </a>
     }
