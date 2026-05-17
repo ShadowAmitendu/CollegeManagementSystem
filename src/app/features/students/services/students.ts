@@ -2,7 +2,9 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 
 import { StudentApi } from './student-api';
 import { AppwriteAuth } from '../../../core/appwrite/appwrite-auth';
-import { type CreateStudentPayload, type Student, type StudentFormValue, type StudentStatusFilter } from '../models/student.model';
+import { AppwriteDatabase } from '../../../core/appwrite/appwrite-database';
+import { APPWRITE_CONFIG } from '../../../core/utils/constants';
+import { type Student, type StudentFormValue, type StudentStatusFilter } from '../models/student.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +12,7 @@ import { type CreateStudentPayload, type Student, type StudentFormValue, type St
 export class Students {
   private readonly api = inject(StudentApi);
   private readonly appwriteAuth = inject(AppwriteAuth);
+  private readonly database = inject(AppwriteDatabase);
   private readonly rowsSignal = signal<readonly Student[]>([]);
   private readonly searchSignal = signal('');
   private readonly departmentSignal = signal('all');
@@ -73,7 +76,43 @@ export class Students {
   async load(): Promise<void> {
     try {
       const response = await this.api.list();
-      this.rowsSignal.set(response.rows);
+      let users = [];
+      try {
+        const usersResponse = await this.database.listRows<any>(APPWRITE_CONFIG.tables.users);
+        users = usersResponse.rows;
+      } catch (err) {
+        console.warn('Could not load users for merging:', err);
+      }
+
+      const mergedStudents = response.rows.map((studentRow: any) => {
+        const userRow = users.find((u: any) => u.userId === studentRow.userId);
+        
+        const nameParts = (userRow?.name || 'Unknown Student').split(' ');
+        
+        return {
+          ...studentRow,
+          // Map DB schema to UI schema expectations
+          admissionNumber: studentRow.enrollmentNo || 'N/A',
+          semester: studentRow.currentSemester || 1,
+          enrollmentYear: parseInt(studentRow.batch) || 2024,
+          departmentName: 'Computer Science', // Placeholder until departments join
+          departmentId: 'dept_cs',
+          program: studentRow.programId || 'B.Tech',
+          section: 'A',
+          advisorName: 'Dr. Alan Turing',
+          cgpa: 8.5, // Placeholder
+          attendancePercentage: 85, // Placeholder
+          status: userRow?.status || 'active',
+          
+          // User profile fields
+          firstName: nameParts[0],
+          lastName: nameParts.slice(1).join(' ') || 'Student',
+          email: userRow?.email || 'student@college.local',
+          phone: '+1 234 567 8900',
+        } as unknown as Student;
+      });
+
+      this.rowsSignal.set(mergedStudents);
     } catch (error) {
       console.error('Failed to load students', error);
     }
@@ -102,13 +141,51 @@ export class Students {
     const account = await this.appwriteAuth.createAccount(value.email, password, name);
     const userId = account.$id;
 
-    const payload: CreateStudentPayload = {
+    // Create user profile in users table
+    try {
+      await this.database.createRow<any>(
+        APPWRITE_CONFIG.tables.users,
+        {
+          email: value.email,
+          name: name,
+          roleIds: ['student'],
+          status: value.status || 'active'
+        },
+        userId
+      );
+    } catch (error) {
+      console.warn('Failed to create user profile in users table', error);
+    }
+
+    // Create student record in students table matching Appwrite schema
+    const studentDbPayload = {
+      userId: userId,
+      enrollmentNo: value.admissionNumber,
+      programId: value.program || 'unassigned',
+      currentSemester: Number(value.semester) || 1,
+      batch: String(value.enrollmentYear || new Date().getFullYear()),
+      isCR: false
+    };
+
+    const studentRow = await this.database.createRow<any>(
+      APPWRITE_CONFIG.tables.students,
+      studentDbPayload
+    );
+
+    // Create optimistic UI object
+    const studentForUI: Student = {
       ...value,
       userId,
-    };
-    const student = await this.api.create(payload);
-    this.rowsSignal.update((rows) => [student, ...rows]);
-    return student;
+      $id: studentRow.$id,
+      $collectionId: studentRow.$collectionId,
+      $databaseId: studentRow.$databaseId,
+      $createdAt: studentRow.$createdAt,
+      $updatedAt: studentRow.$updatedAt,
+      $permissions: studentRow.$permissions
+    } as unknown as Student;
+
+    this.rowsSignal.update((rows) => [studentForUI, ...rows]);
+    return studentForUI;
   }
 
   async updateStudent(studentId: string, value: StudentFormValue): Promise<void> {

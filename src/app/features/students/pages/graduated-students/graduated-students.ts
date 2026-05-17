@@ -1,29 +1,25 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Students } from '../../services/students';
 
 @Component({
   selector: 'app-graduated-students',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './graduated-students.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' }
 })
 export class GraduatedStudents {
-  protected readonly data = signal([
-    {
-        "id": "CS-2020-001",
-        "name": "Eve Carter",
-        "program": "B.Tech CS",
-        "graduationyear": "2024",
-        "cgpa": "9.2"
-    },
-    {
-        "id": "ME-2019-021",
-        "name": "Frank Wright",
-        "program": "B.Tech ME",
-        "graduationyear": "2023",
-        "cgpa": "8.4"
-    }
-]);
+  private readonly studentsService = inject(Students);
+
+  protected readonly data = computed(() => 
+    this.studentsService.rows()
+      .filter(student => student.status === 'graduated')
+      .map(student => ({
+        ...student,
+        name: `${student.firstName} ${student.lastName}`,
+        id: student.$id,
+        graduationyear: String(student.enrollmentYear + 4)
+      }))
+  );
 }

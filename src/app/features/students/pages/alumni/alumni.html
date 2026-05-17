@@ -1,7 +1,7 @@
 <div class="space-y-6">
+
   <div class="flex items-end justify-between">
     <div>
-
       <h1 class="font-serif text-3xl font-normal text-[#141413]">Alumni</h1>
     </div>
     <div class="flex gap-3">
@@ -9,43 +9,65 @@
     </div>
   </div>
 
-  <div class="rounded-2xl border border-[#e6dfd8] bg-white shadow-sm overflow-hidden">
-    <div class="border-b border-[#e6dfd8] bg-[#faf9f5] p-4 flex gap-4">
-      <input type="text" placeholder="Search..." class="w-64 rounded-lg border border-[#e6dfd8] bg-white px-3 py-2 text-sm text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c]" />
-      <select class="rounded-lg border border-[#e6dfd8] bg-white px-3 py-2 text-sm text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">
+  <!-- Search & Filter Section (Dark Box) -->
+  <div class="rounded-xl bg-[#23221c] p-4 grid grid-cols-12 gap-4 items-end text-white">
+    <!-- Search Input -->
+    <div class="col-span-6 space-y-1">
+      <label class="text-[10px] font-medium tracking-wider uppercase text-[#8e8b82]">Search alumni</label>
+      <div class="relative">
+        <input
+          type="text"
+          placeholder="Name, ID..."
+          class="w-full bg-[#1c1a16] border border-[#2a2923] rounded-lg px-3 py-2 text-sm text-white placeholder-[#8e8b82] focus:outline-none focus:ring-1 focus:ring-[#cc785c]"
+        />
+      </div>
+    </div>
+
+    <!-- Batch Dropdown -->
+    <div class="col-span-3 space-y-1">
+      <label class="text-[10px] font-medium tracking-wider uppercase text-[#8e8b82]">Batch</label>
+      <select
+        class="w-full bg-[#1c1a16] border border-[#2a2923] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#cc785c]"
+      >
         <option>All Batches</option>
         <option>2024</option>
         <option>2023</option>
         <option>2022</option>
       </select>
     </div>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-hidden rounded-xl border border-[#e6dfd8]">
     <div class="overflow-x-auto">
-      <table class="w-full text-left text-sm text-[#141413]">
-        <thead class="bg-[#faf9f5] font-medium text-[#6c6a64]">
+      <table class="min-w-full divide-y divide-[#e6dfd8] bg-[#faf9f5] text-left text-sm">
+        <thead class="bg-[#efe9de] text-xs uppercase tracking-[0.14em] text-[#6c6a64]">
           <tr>
-            <th class="px-6 py-4">Name</th>
-            <th class="px-6 py-4">ID</th>
-            <th class="px-6 py-4">Program</th>
-            <th class="px-6 py-4">Graduation Year</th>
-            <th class="px-6 py-4">Email</th>
-            <th class="px-6 py-4 text-right">Actions</th>
+            <th class="px-4 py-3 font-medium" scope="col">Name</th>
+            <th class="px-4 py-3 font-medium" scope="col">ID</th>
+            <th class="px-4 py-3 font-medium" scope="col">Program</th>
+            <th class="px-4 py-3 font-medium" scope="col">Graduation Year</th>
+            <th class="px-4 py-3 font-medium" scope="col">Email</th>
+            <th class="px-4 py-3 font-medium" scope="col">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-[#e6dfd8]">
           @for (item of data(); track item.$id) {
-            <tr class="hover:bg-[#faf9f5] transition-colors">
-              <td class="px-6 py-4 font-medium">{{ item.firstName }} {{ item.lastName }}</td>
-              <td class="px-6 py-4 text-[#6c6a64]">{{ item.$id }}</td>
-              <td class="px-6 py-4 text-[#6c6a64]">{{ item.program }}</td>
-              <td class="px-6 py-4 text-[#6c6a64]">{{ item.enrollmentYear + 4 }}</td>
-              <td class="px-6 py-4 text-[#6c6a64]">{{ item.email }}</td>
-              <td class="px-6 py-4 text-right">
+            <tr class="align-top">
+              <td class="px-4 py-4">
+                <p class="font-medium text-[#141413]">{{ item.firstName }} {{ item.lastName }}</p>
+              </td>
+              <td class="px-4 py-4 text-[#3d3d3a]">{{ item.$id }}</td>
+              <td class="px-4 py-4 text-[#3d3d3a]">{{ item.program }}</td>
+              <td class="px-4 py-4 text-[#3d3d3a]">{{ item.enrollmentYear + 4 }}</td>
+              <td class="px-4 py-4 text-[#3d3d3a]">{{ item.email }}</td>
+              <td class="px-4 py-4">
                 <button class="text-[#cc785c] hover:underline font-medium text-sm">View</button>
               </td>
             </tr>
           } @empty {
             <tr>
-              <td colspan="100%" class="px-6 py-12 text-center text-[#6c6a64]">No records found.</td>
+              <td class="px-4 py-10 text-center text-[#6c6a64]" colspan="6">No records found.</td>
             </tr>
           }
         </tbody>

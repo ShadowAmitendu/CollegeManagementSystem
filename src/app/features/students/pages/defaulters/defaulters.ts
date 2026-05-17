@@ -1,29 +1,27 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Students } from '../../services/students';
 
 @Component({
   selector: 'app-defaulters',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './defaulters.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' }
 })
 export class Defaulters {
-  protected readonly data = signal([
-    {
-        "id": "CS-2024-001",
-        "name": "Alice Smith",
-        "department": "Computer Science",
-        "attendance": "65%",
-        "status": "Critical"
-    },
-    {
-        "id": "ME-2024-042",
-        "name": "Bob Johnson",
-        "department": "Mechanical",
-        "attendance": "71%",
-        "status": "Warning"
-    }
-]);
+  private readonly studentsService = inject(Students);
+
+  protected readonly data = computed(() => 
+    this.studentsService.rows()
+      .filter(student => student.attendancePercentage < 75)
+      .map(student => ({
+        ...student,
+        name: `${student.firstName} ${student.lastName}`,
+        id: student.$id,
+        department: student.departmentName,
+        attendance: `${student.attendancePercentage}%`,
+        status: student.attendancePercentage < 65 ? 'Critical' : 'Warning'
+      }))
+  );
 }

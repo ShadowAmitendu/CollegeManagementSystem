@@ -9,9 +9,7 @@
         <a routerLink="/students/create" class="rounded-lg bg-[#cc785c] px-4 py-2 text-sm font-medium text-white hover:bg-[#b86146] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2">
           Add New
         </a>
-        <a routerLink="/students/import" class="rounded-lg border border-[#e6dfd8] bg-white px-4 py-2 text-sm font-medium text-[#141413] hover:bg-[#faf9f5] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">
-          Upload CSV
-        </a>
+
       </div>
     }
   </div>
@@ -27,7 +25,7 @@
   </div>
 
   <!-- Search & Filter Section (Dark Box) -->
-  <div class="rounded-xl bg-[#141413] p-4 grid grid-cols-12 gap-4 items-end text-white">
+  <div class="rounded-xl bg-[#23221c] p-4 grid grid-cols-12 gap-4 items-end text-white">
     <!-- Search Input -->
     <div class="col-span-6 space-y-1">
       <label class="text-[10px] font-medium tracking-wider uppercase text-[#8e8b82]">Search students</label>
@@ -35,7 +33,7 @@
         <input
           type="search"
           placeholder="Name, admission, advisor"
-          class="w-full bg-[#1e1e1d] border border-[#2e2e2c] rounded-lg pl-3 pr-10 py-2 text-sm text-white placeholder-[#6c6a64] focus:outline-none focus:ring-1 focus:ring-[#cc785c] focus:border-transparent"
+          class="w-full bg-[#1c1a16] border border-[#2a2923] rounded-lg pl-3 pr-10 py-2 text-sm text-white placeholder-[#6c6a64] focus:outline-none focus:ring-1 focus:ring-[#cc785c] focus:border-transparent"
           [value]="students.search()"
           (input)="onSearch($event)"
         />
@@ -46,7 +44,7 @@
     <div class="col-span-3 space-y-1">
       <label class="text-[10px] font-medium tracking-wider uppercase text-[#8e8b82]">Department</label>
       <select
-        class="w-full bg-[#1e1e1d] border border-[#2e2e2c] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#cc785c]"
+        class="w-full bg-[#1c1a16] border border-[#2a2923] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#cc785c]"
         [value]="students.selectedDepartment()"
         (change)="onDepartmentChange($event)"
       >
@@ -61,7 +59,7 @@
     <div class="col-span-3 space-y-1">
       <label class="text-[10px] font-medium tracking-wider uppercase text-[#8e8b82]">Status</label>
       <select
-        class="w-full bg-[#1e1e1d] border border-[#2e2e2c] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#cc785c]"
+        class="w-full bg-[#1c1a16] border border-[#2a2923] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#cc785c]"
         [value]="students.selectedStatus()"
         (change)="onStatusChange($event)"
       >

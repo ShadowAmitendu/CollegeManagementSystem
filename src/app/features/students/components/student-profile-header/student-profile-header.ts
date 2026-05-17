@@ -15,6 +15,15 @@ export class StudentProfileHeader {
   readonly editStudent = output<string>();
   readonly deleteStudent = output<string>();
 
-  protected readonly initials = computed(() => `${this.student().firstName[0] ?? ''}${this.student().lastName[0] ?? ''}`);
-  protected readonly fullName = computed(() => `${this.student().firstName} ${this.student().lastName}`);
+  protected readonly initials = computed(() => {
+    const s = this.student() as any;
+    const first = s.firstName?.[0] || s.name?.[0] || 'U';
+    const last = s.lastName?.[0] || '';
+    return `${first}${last}`.toUpperCase();
+  });
+  protected readonly fullName = computed(() => {
+    const s = this.student() as any;
+    if (s.name) return s.name;
+    return `${s.firstName ?? 'Unknown'} ${s.lastName ?? 'Student'}`.trim();
+  });
 }

@@ -18,6 +18,7 @@ export class Login {
   protected readonly submitted = signal(false);
 
   protected readonly testAccounts = [
+    { role: 'Super Admin', email: 'super_admin@college.local', password: 'password123' },
     { role: 'Admin', email: 'admin@college.local', password: 'password123' },
     { role: 'Principal', email: 'principal@college.local', password: 'password123' },
     { role: 'HOD', email: 'hod@college.local', password: 'password123' },

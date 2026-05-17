@@ -51,6 +51,14 @@ export const routes: Routes = [
           import('./features/departments/departments.routes').then((m) => m.departmentsRoutes),
       },
       {
+        path: 'programs',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.departments },
+        loadChildren: () =>
+          import('./features/programs/programs.routes').then((m) => m.programsRoutes),
+      },
+      {
         path: 'attendance',
         canActivate: [permissionGuard],
         canMatch: [permissionCanMatchGuard],
@@ -83,6 +91,102 @@ export const routes: Routes = [
           import('./features/notifications/notifications.routes').then(
             (m) => m.notificationsRoutes,
           ),
+      },
+      {
+        path: 'designations',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.designations },
+        loadChildren: () =>
+          import('./features/designations/designations.routes').then((m) => m.designationsRoutes),
+      },
+      {
+        path: 'assignments',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.assignments },
+        loadChildren: () =>
+          import('./features/assignments/assignments.routes').then((m) => m.assignmentsRoutes),
+      },
+      {
+        path: 'examinations',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.examinations },
+        loadChildren: () =>
+          import('./features/examinations/examinations.routes').then((m) => m.examinationsRoutes),
+      },
+      {
+        path: 'timetable',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.timetable },
+        loadChildren: () =>
+          import('./features/timetable/timetable.routes').then((m) => m.timetableRoutes),
+      },
+      {
+        path: 'communication',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.communication },
+        loadChildren: () =>
+          import('./features/communication/communication.routes').then((m) => m.communicationRoutes),
+      },
+      {
+        path: 'finance',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.finance },
+        loadChildren: () =>
+          import('./features/finance/finance.routes').then((m) => m.financeRoutes),
+      },
+      {
+        path: 'operations',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.operations },
+        loadChildren: () =>
+          import('./features/operations/operations.routes').then((m) => m.operationsRoutes),
+      },
+      {
+        path: 'analytics',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.analytics },
+        loadChildren: () =>
+          import('./features/analytics/analytics.routes').then((m) => m.analyticsRoutes),
+      },
+      {
+        path: 'reports',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.reports },
+        loadChildren: () =>
+          import('./features/reports/reports.routes').then((m) => m.reportsRoutes),
+      },
+      {
+        path: 'user-management',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.userManagement },
+        loadChildren: () =>
+          import('./features/user-management/user-management.routes').then((m) => m.userManagementRoutes),
+      },
+      {
+        path: 'system',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.system },
+        loadChildren: () =>
+          import('./features/system/system.routes').then((m) => m.systemRoutes),
+      },
+      {
+        path: 'account',
+        canActivate: [permissionGuard],
+        canMatch: [permissionCanMatchGuard],
+        data: { permission: ROUTE_PERMISSIONS.account },
+        loadChildren: () =>
+          import('./features/account/account.routes').then((m) => m.accountRoutes),
       },
       {
         path: 'settings',

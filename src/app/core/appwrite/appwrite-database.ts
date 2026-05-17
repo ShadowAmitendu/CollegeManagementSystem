@@ -32,12 +32,13 @@ export class AppwriteDatabase {
   createRow<Row extends Models.Row>(
     tableId: string,
     data: Row extends Models.DefaultRow ? Partial<Models.Row> & Record<string, unknown> : Partial<Models.Row> & Omit<Row, keyof Models.Row>,
+    rowId: string = ID.unique(),
     permissions?: string[],
   ): Promise<Row> {
     return this.tablesDB.createRow<Row>({
       databaseId: this.databaseId,
       tableId,
-      rowId: ID.unique(),
+      rowId,
       data,
       permissions,
     });

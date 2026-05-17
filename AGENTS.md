@@ -410,3 +410,279 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Design services around a single responsibility
 - Use the `providedIn: 'root'` option for singleton services
 - Use the `inject()` function instead of constructor injection
+
+# FINAL ROOT SIDEBAR VISIBILITY MATRIX
+
+## College Management System
+
+---
+
+# ROOT PAGES
+
+```txt id="7mx2qc"
+Dashboard
+Students
+Faculty
+Departments
+Designations
+Programs
+Attendance
+Assignments
+Results
+Examinations
+Timetable
+Communication
+Library
+Finance
+Operations
+Analytics
+Reports
+User Management
+System
+Account
+```
+
+---
+
+# STUDENT
+
+```txt id="4rv7mh"
+Dashboard
+Attendance
+Assignments
+Results
+Timetable
+Communication
+Library
+Finance
+Account
+```
+
+---
+
+# CR
+
+```txt id="7tp4zn"
+Dashboard
+Students
+Attendance
+Assignments
+Results
+Timetable
+Communication
+Library
+Finance
+Account
+```
+
+---
+
+# PROFESSOR
+
+```txt id="5xv8qc"
+Dashboard
+Students
+Attendance
+Assignments
+Results
+Examinations
+Timetable
+Communication
+Library
+Analytics
+Reports
+Account
+```
+
+---
+
+# HOD
+
+```txt id="9mn5wr"
+Dashboard
+Students
+Faculty
+Departments
+Programs
+Attendance
+Assignments
+Results
+Examinations
+Timetable
+Communication
+Library
+Analytics
+Reports
+Operations
+Account
+```
+
+---
+
+# LIBRARIAN
+
+```txt id="2qw7mh"
+Dashboard
+Library
+Communication
+Reports
+Account
+```
+
+---
+
+# ACCOUNTS STAFF
+
+```txt id="6tp3vx"
+Dashboard
+Finance
+Students
+Communication
+Reports
+Account
+```
+
+---
+
+# STAFF
+
+```txt id="9yk4ph"
+Dashboard
+Students
+Operations
+Communication
+Reports
+Account
+```
+
+---
+
+# PRINCIPAL
+
+```txt id="5tw8zn"
+Dashboard
+Students
+Faculty
+Departments
+Designations
+Programs
+Attendance
+Assignments
+Results
+Examinations
+Timetable
+Communication
+Library
+Finance
+Operations
+Analytics
+Reports
+User Management
+Account
+```
+
+---
+
+# ADMIN
+
+```txt id="1rx5mq"
+Dashboard
+Students
+Faculty
+Departments
+Designations
+Programs
+Attendance
+Assignments
+Results
+Examinations
+Timetable
+Communication
+Library
+Finance
+Operations
+Analytics
+Reports
+User Management
+System
+Account
+```
+
+---
+
+# SUPER ADMIN
+
+```txt id="7vc2qp"
+Dashboard
+Students
+Faculty
+Departments
+Designations
+Programs
+Attendance
+Assignments
+Results
+Examinations
+Timetable
+Communication
+Library
+Finance
+Operations
+Analytics
+Reports
+User Management
+System
+Account
+```
+
+---
+
+# IMPORTANT IMPLEMENTATION RULE
+
+Sidebar MUST be:
+
+```txt id="3tw9mx"
+permission-driven
+```
+
+NOT:
+
+```txt id="6mn1zr"
+hardcoded role-driven
+```
+
+Because:
+
+* users may have multiple roles
+* delegated permissions exist
+* temporary permissions exist
+* permissions may be revoked
+
+---
+
+# CORRECT SIDEBAR LOGIC
+
+Render root page ONLY if user has:
+
+```txt id="8pv5wc"
+at least one visible child permission
+```
+
+Example:
+
+User has:
+
+```txt id="2tx9vh"
+view_attendance_reports
+```
+
+Then show:
+
+```txt id="4mv9qw"
+Attendance
+```
+
+root automatically.
+
+Enterprise-grade navigation logic.
+

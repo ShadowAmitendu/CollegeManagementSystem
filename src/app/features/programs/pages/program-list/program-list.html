@@ -1,0 +1,74 @@
+<div class="space-y-6">
+
+  <div class="flex items-end justify-between">
+    <div>
+      <h1 class="font-serif text-3xl font-normal text-[#141413]">Programs</h1>
+    </div>
+    <div class="flex gap-3">
+      <button class="rounded-lg border border-[#e6dfd8] bg-white px-4 py-2 text-sm font-medium text-[#141413] hover:bg-[#faf9f5]">Add Program</button>
+    </div>
+  </div>
+
+  <!-- Search & Filter Section (Dark Box) -->
+  <div class="rounded-xl bg-[#23221c] p-4 grid grid-cols-12 gap-4 items-end text-white">
+    <!-- Search Input -->
+    <div class="col-span-6 space-y-1">
+      <label class="text-[10px] font-medium tracking-wider uppercase text-[#8e8b82]">Search programs</label>
+      <div class="relative">
+        <input
+          type="text"
+          placeholder="Program name or code..."
+          class="w-full bg-[#1c1a16] border border-[#2a2923] rounded-lg px-3 py-2 text-sm text-white placeholder-[#8e8b82] focus:outline-none focus:ring-1 focus:ring-[#cc785c]"
+        />
+      </div>
+    </div>
+
+    <!-- Department Dropdown -->
+    <div class="col-span-3 space-y-1">
+      <label class="text-[10px] font-medium tracking-wider uppercase text-[#8e8b82]">Department</label>
+      <select
+        class="w-full bg-[#1c1a16] border border-[#2a2923] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#cc785c]"
+      >
+        <option>All Departments</option>
+        <option>Computer Science</option>
+        <option>Mechanical</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-hidden rounded-xl border border-[#e6dfd8]">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-[#e6dfd8] bg-[#faf9f5] text-left text-sm">
+        <thead class="bg-[#efe9de] text-xs uppercase tracking-[0.14em] text-[#6c6a64]">
+          <tr>
+            <th class="px-4 py-3 font-medium" scope="col">Program Code</th>
+            <th class="px-4 py-3 font-medium" scope="col">Program Name</th>
+            <th class="px-4 py-3 font-medium" scope="col">Department</th>
+            <th class="px-4 py-3 font-medium" scope="col">Duration</th>
+            <th class="px-4 py-3 font-medium" scope="col">Type</th>
+            <th class="px-4 py-3 font-medium" scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e6dfd8]">
+          @for (item of data(); track item.id) {
+            <tr class="align-top">
+              <td class="px-4 py-4 font-medium text-[#141413]">{{ item.code }}</td>
+              <td class="px-4 py-4 text-[#3d3d3a]">{{ item.name }}</td>
+              <td class="px-4 py-4 text-[#3d3d3a]">{{ item.department }}</td>
+              <td class="px-4 py-4 text-[#3d3d3a]">{{ item.duration }}</td>
+              <td class="px-4 py-4 text-[#3d3d3a]">{{ item.type }}</td>
+              <td class="px-4 py-4">
+                <button class="text-[#cc785c] hover:underline font-medium text-sm">Edit</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td class="px-4 py-10 text-center text-[#6c6a64]" colspan="6">No programs found.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
