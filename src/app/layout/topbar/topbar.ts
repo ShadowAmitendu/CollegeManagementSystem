@@ -23,7 +23,7 @@ import { DASHBOARD_NAV_ITEMS, type DashboardSubNavItem } from '../navigation/nav
   templateUrl: './topbar.html',
   styleUrl: './topbar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'block border-b border-[#e6dfd8] bg-[#faf9f5]/95 backdrop-blur' },
+  host: { class: 'block border-b border-[#e6dfd8] bg-[#faf9f5]/95 backdrop-blur sticky top-0 z-50' },
 })
 export class Topbar implements AfterViewInit {
   protected readonly auth = inject(Auth);

@@ -10,13 +10,19 @@ import { DASHBOARD_NAV_ITEMS } from '../navigation/navigation.config';
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './sidebar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'hidden border-r border-[#e6dfd8] bg-[#faf9f5] lg:block' },
+  host: {
+    '[class.w-16]': 'isCollapsed()',
+    '[class.w-72]': '!isCollapsed()',
+    '[class.hover:z-[100]]': 'isCollapsed()',
+    'class': 'hidden lg:block shrink-0 transition-all duration-300 relative sticky top-0 h-dvh'
+  },
 })
 export class Sidebar {
   protected readonly auth = inject(Auth);
   private readonly permissions = inject(Permissions);
   private readonly router = inject(Router);
   private readonly navItems = signal(DASHBOARD_NAV_ITEMS);
+  protected readonly isCollapsed = signal(false);
 
   protected readonly visibleNavItems = computed(() =>
     this.navItems().filter((item) => !item.permission || this.permissions.can(item.permission)),

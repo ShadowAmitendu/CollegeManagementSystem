@@ -1,10 +1,14 @@
-<div class="grid min-h-dvh lg:grid-cols-[17rem_1fr]">
-  <app-sidebar />
+<div class="flex min-h-dvh">
+  <app-sidebar class="block shrink-0" />
 
-  <div class="min-w-0">
+  <div class="min-w-0 flex-1">
     <app-topbar />
 
-    <main class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8" id="main-content" tabindex="-1">
+    <main
+      class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
+      id="main-content"
+      tabindex="-1"
+    >
       <router-outlet />
     </main>
   </div>
