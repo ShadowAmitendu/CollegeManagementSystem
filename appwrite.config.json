@@ -1,10 +1,10 @@
 {
-  "projectId": "replace-with-appwrite-project-id",
-  "endpoint": "https://cloud.appwrite.io/v1",
-  "includes": {
-    "tablesDB": "./appwrite/tables-db.json",
-    "tables": "./appwrite/tables.json",
-    "buckets": "./appwrite/buckets.json",
-    "functions": "./appwrite/functions.json"
-  }
+    "projectId": "6a095234003402d1d270",
+    "endpoint": "https://sgp.cloud.appwrite.io/v1",
+    "includes": {
+        "tablesDB": "./appwrite/tables-db.json",
+        "tables": "./appwrite/tables.json",
+        "buckets": "./appwrite/buckets.json",
+        "functions": "./appwrite/functions.json"
+    }
 }

@@ -11,7 +11,9 @@ import { type Student } from '../../models/student.model';
 })
 export class StudentProfileHeader {
   readonly student = input.required<Student>();
+  readonly canDelete = input<boolean>(false);
   readonly editStudent = output<string>();
+  readonly deleteStudent = output<string>();
 
   protected readonly initials = computed(() => `${this.student().firstName[0] ?? ''}${this.student().lastName[0] ?? ''}`);
   protected readonly fullName = computed(() => `${this.student().firstName} ${this.student().lastName}`);

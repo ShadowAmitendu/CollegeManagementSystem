@@ -8,12 +8,23 @@
       <h1 class="mt-2 font-serif text-4xl font-normal leading-tight">{{ fullName() }}</h1>
       <p class="mt-2 text-sm text-[#d8d2ca]">{{ student().program }} · {{ student().departmentName }}</p>
     </div>
-    <button
-      type="button"
-      class="inline-flex min-h-10 items-center justify-center rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#181715]"
-      (click)="editStudent.emit(student().$id)"
-    >
-      Edit profile
-    </button>
+    <div class="flex gap-3">
+      @if (canDelete()) {
+        <button
+          type="button"
+          class="inline-flex min-h-10 items-center justify-center rounded-lg border border-red-500 bg-transparent px-5 text-sm font-medium text-red-500 hover:bg-red-500/10 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-[#181715]"
+          (click)="deleteStudent.emit(student().$id)"
+        >
+          Remove student
+        </button>
+      }
+      <button
+        type="button"
+        class="inline-flex min-h-10 items-center justify-center rounded-lg bg-[#cc785c] px-5 text-sm font-medium text-white hover:bg-[#a9583e] focus:outline-none focus:ring-2 focus:ring-[#cc785c] focus:ring-offset-2 focus:ring-offset-[#181715]"
+        (click)="editStudent.emit(student().$id)"
+      >
+        Edit profile
+      </button>
+    </div>
   </div>
 </section>

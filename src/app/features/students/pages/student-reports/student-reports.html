@@ -1,0 +1,97 @@
+<div class="mx-auto max-w-6xl p-6">
+
+  <div class="mb-6 flex items-end justify-between">
+    <div>
+      <nav class="flex text-sm text-[#6c6a64] mb-2" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <li class="inline-flex items-center">
+            <span class="hover:text-[#141413]">Workspace</span>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-3 h-3 mx-1 text-[#e6dfd8]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+              <a routerLink="/students" class="hover:text-[#141413] ml-1 md:ml-2">Students</a>
+            </div>
+          </li>
+          <li aria-current="page">
+            <div class="flex items-center">
+              <svg class="w-3 h-3 mx-1 text-[#e6dfd8]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+              <span class="ml-1 md:ml-2 font-medium text-[#141413]">Student Reports</span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="font-serif text-3xl font-normal text-[#141413]">Student Reports</h1>
+    </div>
+    <div class="flex gap-3">
+      <button class="rounded-lg border border-[#e6dfd8] bg-white px-4 py-2 text-sm font-medium text-[#141413] hover:bg-[#faf9f5]">Export CSV</button>
+      <button class="rounded-lg bg-[#cc785c] px-4 py-2 text-sm font-medium text-white hover:bg-[#a9583e]">Add New</button>
+    </div>
+  </div>
+
+
+  <div class="mb-8 border-b border-[#e6dfd8] overflow-x-auto">
+    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+      <a routerLink="/students" routerLinkActive="border-[#cc785c] text-[#cc785c]" [routerLinkActiveOptions]="{exact: true}" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Directory</a>
+      <a routerLink="/students/analytics" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Analytics</a>
+      <a routerLink="/students/import" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Import</a>
+      <a routerLink="/students/attendance-summary" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Attendance</a>
+      <a routerLink="/students/defaulters" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Defaulters</a>
+      <a routerLink="/students/fee-due" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Fee Dues</a>
+      <a routerLink="/students/graduated" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Alumni</a>
+      <a routerLink="/students/cr-management" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">CRs</a>
+      <a routerLink="/students/reports" routerLinkActive="border-[#cc785c] text-[#cc785c]" class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-[#6c6a64] hover:border-[#e6dfd8] hover:text-[#141413]">Reports</a>
+    </nav>
+  </div>
+
+
+  <div class="rounded-2xl border border-[#e6dfd8] bg-white shadow-sm overflow-hidden">
+    <div class="border-b border-[#e6dfd8] bg-[#faf9f5] p-4 flex gap-4">
+      <input type="text" placeholder="Search..." class="w-64 rounded-lg border border-[#e6dfd8] bg-white px-3 py-2 text-sm text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c]" />
+      <select class="rounded-lg border border-[#e6dfd8] bg-white px-3 py-2 text-sm text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">
+        <option>All Departments</option>
+        <option>Computer Science</option>
+        <option>Mechanical</option>
+      </select>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm text-[#141413]">
+        <thead class="bg-[#faf9f5] font-medium text-[#6c6a64]">
+          <tr>
+            <th class="px-6 py-4">Report Name</th>
+            <th class="px-6 py-4">Generated By</th>
+            <th class="px-6 py-4">Date</th>
+            <th class="px-6 py-4">Type</th>
+            <th class="px-6 py-4">Status</th>
+            <th class="px-6 py-4 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e6dfd8]">
+          @for (item of data(); track item.id) {
+            <tr class="hover:bg-[#faf9f5] transition-colors">
+              <td class="px-6 py-4 font-medium">{{ item.reportname }}</td>
+              <td class="px-6 py-4 text-[#6c6a64]">{{ item.generatedby }}</td>
+              <td class="px-6 py-4 text-[#6c6a64]">{{ item.date }}</td>
+              <td class="px-6 py-4 text-[#6c6a64]">{{ item.type }}</td>
+              <td class="px-6 py-4 text-[#6c6a64]">{{ item.status }}</td>
+              <td class="px-6 py-4 text-right">
+                <button class="text-[#cc785c] hover:underline font-medium text-sm">View</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="100%" class="px-6 py-12 text-center text-[#6c6a64]">No records found.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="border-t border-[#e6dfd8] bg-[#faf9f5] p-4 flex items-center justify-between text-sm text-[#6c6a64]">
+      <span>Showing 1 to 10 of 42 results</span>
+      <div class="flex gap-2">
+        <button class="rounded border border-[#e6dfd8] bg-white px-3 py-1 hover:bg-[#efe9de]">Previous</button>
+        <button class="rounded border border-[#e6dfd8] bg-white px-3 py-1 hover:bg-[#efe9de]">Next</button>
+      </div>
+    </div>
+  </div>
+</div>

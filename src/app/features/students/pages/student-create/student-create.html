@@ -1,10 +1,28 @@
 <section class="space-y-8" aria-labelledby="student-create-title">
-  <header class="border-b border-[#e6dfd8] pb-8">
-    <a routerLink="/students" class="text-sm font-medium text-[#6c6a64] hover:text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">Back to students</a>
-    <p class="mt-5 text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">Students</p>
-    <h1 id="student-create-title" class="mt-3 font-serif text-5xl font-normal leading-[1.05] text-[#141413]">Create Student</h1>
-    <p class="mt-4 max-w-2xl text-base leading-7 text-[#3d3d3a]">Add a development student record that flows through the directory and profile screens.</p>
-  </header>
+  <div class="mb-6 flex items-end justify-between">
+    <div>
+      <nav class="flex text-sm text-[#6c6a64] mb-2" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <li class="inline-flex items-center">
+            <span class="hover:text-[#141413]">Workspace</span>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-3 h-3 mx-1 text-[#e6dfd8]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+              <a routerLink="/students" class="hover:text-[#141413] ml-1 md:ml-2">Students</a>
+            </div>
+          </li>
+          <li aria-current="page">
+            <div class="flex items-center">
+              <svg class="w-3 h-3 mx-1 text-[#e6dfd8]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+              <span class="ml-1 md:ml-2 font-medium text-[#141413]">Add Student</span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="font-serif text-3xl font-normal text-[#141413]">Add Student</h1>
+    </div>
+  </div>
 
   <app-student-form mode="create" (save)="saveStudent($event)" (cancel)="cancel()" />
 </section>

@@ -10,6 +10,7 @@ export class Permissions {
 
   readonly principal = this.principalSignal.asReadonly();
   readonly permissions = computed(() => this.principalSignal()?.permissions ?? []);
+  readonly roles = computed(() => this.principalSignal()?.roles ?? []);
 
   setPrincipal(principal: RbacPrincipal | null): void {
     this.principalSignal.set(principal);
@@ -21,5 +22,13 @@ export class Permissions {
 
   canAny(permissions: readonly PermissionCode[]): boolean {
     return permissions.some((permission) => this.can(permission));
+  }
+
+  hasRole(role: string): boolean {
+    return this.roles().includes(role as any);
+  }
+
+  hasAnyRole(roles: readonly string[]): boolean {
+    return roles.some((role) => this.hasRole(role));
   }
 }

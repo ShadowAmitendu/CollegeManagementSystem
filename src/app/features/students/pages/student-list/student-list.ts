@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { Permissions } from '../../../../core/services/permissions';
 import { StudentCard } from '../../components/student-card/student-card';
@@ -9,7 +9,7 @@ import { Students } from '../../services/students';
 
 @Component({
   selector: 'app-student-list',
-  imports: [StudentCard, StudentTable, RouterLink],
+  imports: [StudentCard, StudentTable, RouterLink, RouterLinkActive],
   templateUrl: './student-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
@@ -19,8 +19,9 @@ export class StudentList {
   private readonly permissions = inject(Permissions);
   private readonly router = inject(Router);
 
-  protected readonly canCreateStudent = computed(() => this.permissions.can('students.create'));
+  protected readonly canCreateStudent = computed(() => this.permissions.hasAnyRole(['admin', 'principal', 'hod', 'professor']));
   protected readonly canEditStudent = computed(() => this.permissions.can('students.update'));
+  protected readonly canDeleteStudent = computed(() => this.permissions.hasAnyRole(['admin', 'principal', 'hod', 'professor']));
 
   protected onSearch(event: Event): void {
     this.students.setSearch((event.target as HTMLInputElement).value);

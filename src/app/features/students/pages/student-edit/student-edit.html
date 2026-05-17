@@ -1,11 +1,35 @@
 @if (student(); as studentValue) {
   <section class="space-y-8" aria-labelledby="student-edit-title">
-    <header class="border-b border-[#e6dfd8] pb-8">
-      <a [routerLink]="['/students', studentValue.$id]" class="text-sm font-medium text-[#6c6a64] hover:text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#cc785c]">Back to profile</a>
-      <p class="mt-5 text-xs font-medium uppercase tracking-[0.14em] text-[#6c6a64]">{{ studentValue.admissionNumber }}</p>
-      <h1 id="student-edit-title" class="mt-3 font-serif text-5xl font-normal leading-[1.05] text-[#141413]">Edit Student</h1>
-      <p class="mt-4 max-w-2xl text-base leading-7 text-[#3d3d3a]">Update the student record in the static development store.</p>
-    </header>
+    <div class="mb-6 flex items-end justify-between">
+      <div>
+        <nav class="flex text-sm text-[#6c6a64] mb-2" aria-label="Breadcrumb">
+          <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+              <span class="hover:text-[#141413]">Workspace</span>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <svg class="w-3 h-3 mx-1 text-[#e6dfd8]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+                <a routerLink="/students" class="hover:text-[#141413] ml-1 md:ml-2">Students</a>
+              </div>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <svg class="w-3 h-3 mx-1 text-[#e6dfd8]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+                <a [routerLink]="['/students', studentValue.$id]" class="hover:text-[#141413] ml-1 md:ml-2">{{ studentValue.firstName }} {{ studentValue.lastName }}</a>
+              </div>
+            </li>
+            <li aria-current="page">
+              <div class="flex items-center">
+                <svg class="w-3 h-3 mx-1 text-[#e6dfd8]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+                <span class="ml-1 md:ml-2 font-medium text-[#141413]">Edit</span>
+              </div>
+            </li>
+          </ol>
+        </nav>
+        <h1 class="font-serif text-3xl font-normal text-[#141413]">Edit Student</h1>
+      </div>
+    </div>
 
     <app-student-form mode="edit" [student]="studentValue" (save)="saveStudent($event)" (cancel)="cancel()" />
   </section>

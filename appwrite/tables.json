@@ -1,86 +1,1070 @@
 [
-  {
-    "$id": "users",
-    "databaseId": "college-management",
-    "name": "Users",
-    "enabled": true
-  },
-  {
-    "$id": "roles",
-    "databaseId": "college-management",
-    "name": "Roles",
-    "enabled": true
-  },
-  {
-    "$id": "permissions",
-    "databaseId": "college-management",
-    "name": "Permissions",
-    "enabled": true
-  },
-  {
-    "$id": "students",
-    "databaseId": "college-management",
-    "name": "Students",
-    "enabled": true
-  },
-  {
-    "$id": "faculty",
-    "databaseId": "college-management",
-    "name": "Faculty",
-    "enabled": true
-  },
-  {
-    "$id": "departments",
-    "databaseId": "college-management",
-    "name": "Departments",
-    "enabled": true
-  },
-  {
-    "$id": "course_offerings",
-    "databaseId": "college-management",
-    "name": "Course Offerings",
-    "enabled": true
-  },
-  {
-    "$id": "attendance_sessions",
-    "databaseId": "college-management",
-    "name": "Attendance Sessions",
-    "enabled": true
-  },
-  {
-    "$id": "attendance_records",
-    "databaseId": "college-management",
-    "name": "Attendance Records",
-    "enabled": true
-  },
-  {
-    "$id": "books",
-    "databaseId": "college-management",
-    "name": "Books",
-    "enabled": true
-  },
-  {
-    "$id": "book_issues",
-    "databaseId": "college-management",
-    "name": "Book Issues",
-    "enabled": true
-  },
-  {
-    "$id": "results",
-    "databaseId": "college-management",
-    "name": "Results",
-    "enabled": true
-  },
-  {
-    "$id": "notifications",
-    "databaseId": "college-management",
-    "name": "Notifications",
-    "enabled": true
-  },
-  {
-    "$id": "activity",
-    "databaseId": "college-management",
-    "name": "Activity",
-    "enabled": true
-  }
+    {
+        "$id": "users",
+        "databaseId": "college-management",
+        "name": "Users",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "userId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "email",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "name",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "avatarId",
+                "type": "varchar",
+                "required": false,
+                "size": 36
+            },
+            {
+                "key": "status",
+                "type": "varchar",
+                "required": true,
+                "size": 20
+            },
+            {
+                "key": "roleIds",
+                "type": "varchar",
+                "required": false,
+                "size": 36,
+                "array": true
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "roles",
+        "databaseId": "college-management",
+        "name": "Roles",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "name",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "description",
+                "type": "varchar",
+                "required": false,
+                "size": 1000
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "permissions",
+        "databaseId": "college-management",
+        "name": "Permissions",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "roleId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "resource",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "action",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "departments",
+        "databaseId": "college-management",
+        "name": "Departments",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "name",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "code",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            },
+            {
+                "key": "hodId",
+                "type": "varchar",
+                "required": false,
+                "size": 36
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "programs",
+        "databaseId": "college-management",
+        "name": "Programs",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "name",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "departmentId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "durationYears",
+                "type": "integer",
+                "required": true
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "subjects",
+        "databaseId": "college-management",
+        "name": "Subjects",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "code",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            },
+            {
+                "key": "name",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "credits",
+                "type": "integer",
+                "required": true
+            },
+            {
+                "key": "programId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "semester",
+                "type": "integer",
+                "required": true
+            },
+            {
+                "key": "type",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "students",
+        "databaseId": "college-management",
+        "name": "Students",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "userId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "enrollmentNo",
+                "type": "varchar",
+                "required": true,
+                "size": 100
+            },
+            {
+                "key": "programId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "currentSemester",
+                "type": "integer",
+                "required": true
+            },
+            {
+                "key": "batch",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            },
+            {
+                "key": "isCR",
+                "type": "boolean",
+                "required": false,
+                "default": false
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "faculty",
+        "databaseId": "college-management",
+        "name": "Faculty",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "userId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "employeeId",
+                "type": "varchar",
+                "required": true,
+                "size": 100
+            },
+            {
+                "key": "departmentId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "designation",
+                "type": "varchar",
+                "required": true,
+                "size": 100
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "course_allocations",
+        "databaseId": "college-management",
+        "name": "Course Allocations",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "facultyId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "subjectId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "batch",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            },
+            {
+                "key": "semester",
+                "type": "integer",
+                "required": true
+            },
+            {
+                "key": "academicYear",
+                "type": "varchar",
+                "required": true,
+                "size": 20
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "timetable",
+        "databaseId": "college-management",
+        "name": "Timetable",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "subjectId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "facultyId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "dayOfWeek",
+                "type": "integer",
+                "required": true
+            },
+            {
+                "key": "startTime",
+                "type": "varchar",
+                "required": true,
+                "size": 20
+            },
+            {
+                "key": "endTime",
+                "type": "varchar",
+                "required": true,
+                "size": 20
+            },
+            {
+                "key": "roomNo",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "attendance_sessions",
+        "databaseId": "college-management",
+        "name": "Attendance Sessions",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "subjectId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "facultyId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "date",
+                "type": "datetime",
+                "required": true
+            },
+            {
+                "key": "startTime",
+                "type": "varchar",
+                "required": true,
+                "size": 20
+            },
+            {
+                "key": "type",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "attendance_records",
+        "databaseId": "college-management",
+        "name": "Attendance Records",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "sessionId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "studentId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "status",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            },
+            {
+                "key": "markedBy",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "assignments",
+        "databaseId": "college-management",
+        "name": "Assignments",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "subjectId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "facultyId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "title",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "description",
+                "type": "varchar",
+                "required": false,
+                "size": 5000
+            },
+            {
+                "key": "dueDate",
+                "type": "datetime",
+                "required": true
+            },
+            {
+                "key": "totalMarks",
+                "type": "integer",
+                "required": true
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "submissions",
+        "databaseId": "college-management",
+        "name": "Submissions",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "assignmentId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "studentId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "fileId",
+                "type": "varchar",
+                "required": false,
+                "size": 36
+            },
+            {
+                "key": "submittedAt",
+                "type": "datetime",
+                "required": true
+            },
+            {
+                "key": "marks",
+                "type": "integer",
+                "required": false
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "exams",
+        "databaseId": "college-management",
+        "name": "Exams",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "subjectId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "name",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "date",
+                "type": "datetime",
+                "required": true
+            },
+            {
+                "key": "totalMarks",
+                "type": "integer",
+                "required": true
+            },
+            {
+                "key": "type",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "results",
+        "databaseId": "college-management",
+        "name": "Results",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "studentId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "examId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "marksObtained",
+                "type": "integer",
+                "required": true
+            },
+            {
+                "key": "status",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "notifications",
+        "databaseId": "college-management",
+        "name": "Notifications",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "userId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "title",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "body",
+                "type": "varchar",
+                "required": true,
+                "size": 1000
+            },
+            {
+                "key": "isRead",
+                "type": "boolean",
+                "required": false,
+                "default": false
+            },
+            {
+                "key": "link",
+                "type": "varchar",
+                "required": false,
+                "size": 255
+            },
+            {
+                "key": "createdAt",
+                "type": "datetime",
+                "required": true
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "announcements",
+        "databaseId": "college-management",
+        "name": "Announcements",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "title",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "content",
+                "type": "varchar",
+                "required": true,
+                "size": 5000
+            },
+            {
+                "key": "authorId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "targetRoles",
+                "type": "varchar",
+                "required": false,
+                "size": 36,
+                "array": true
+            },
+            {
+                "key": "attachmentIds",
+                "type": "varchar",
+                "required": false,
+                "size": 36,
+                "array": true
+            },
+            {
+                "key": "priority",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "discussions",
+        "databaseId": "college-management",
+        "name": "Discussions",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "subjectId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "authorId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "title",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "content",
+                "type": "varchar",
+                "required": true,
+                "size": 5000
+            },
+            {
+                "key": "isClosed",
+                "type": "boolean",
+                "required": false,
+                "default": false
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "events",
+        "databaseId": "college-management",
+        "name": "Events",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "title",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "description",
+                "type": "varchar",
+                "required": false,
+                "size": 5000
+            },
+            {
+                "key": "date",
+                "type": "datetime",
+                "required": true
+            },
+            {
+                "key": "location",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "organizerId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "targetRoles",
+                "type": "varchar",
+                "required": false,
+                "size": 36,
+                "array": true
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "books",
+        "databaseId": "college-management",
+        "name": "Books",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "isbn",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            },
+            {
+                "key": "title",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "author",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "category",
+                "type": "varchar",
+                "required": true,
+                "size": 100
+            },
+            {
+                "key": "totalCopies",
+                "type": "integer",
+                "required": true
+            },
+            {
+                "key": "availableCopies",
+                "type": "integer",
+                "required": true
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "book_issues",
+        "databaseId": "college-management",
+        "name": "Book Issues",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "bookId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "userId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "issueDate",
+                "type": "datetime",
+                "required": true
+            },
+            {
+                "key": "dueDate",
+                "type": "datetime",
+                "required": true
+            },
+            {
+                "key": "returnDate",
+                "type": "datetime",
+                "required": false
+            },
+            {
+                "key": "status",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "fines",
+        "databaseId": "college-management",
+        "name": "Fines",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "userId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "issueId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "amount",
+                "type": "double",
+                "required": true
+            },
+            {
+                "key": "status",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "fees",
+        "databaseId": "college-management",
+        "name": "Fees",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "studentId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "amount",
+                "type": "double",
+                "required": true
+            },
+            {
+                "key": "type",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            },
+            {
+                "key": "dueDate",
+                "type": "datetime",
+                "required": true
+            },
+            {
+                "key": "status",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "transactions",
+        "databaseId": "college-management",
+        "name": "Transactions",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "feeId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "userId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "amount",
+                "type": "double",
+                "required": true
+            },
+            {
+                "key": "paymentMethod",
+                "type": "varchar",
+                "required": true,
+                "size": 100
+            },
+            {
+                "key": "transactionDate",
+                "type": "datetime",
+                "required": true
+            },
+            {
+                "key": "receiptNo",
+                "type": "varchar",
+                "required": true,
+                "size": 100
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "requests",
+        "databaseId": "college-management",
+        "name": "Requests",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "userId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "type",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            },
+            {
+                "key": "subject",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            },
+            {
+                "key": "description",
+                "type": "varchar",
+                "required": true,
+                "size": 1000
+            },
+            {
+                "key": "status",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            },
+            {
+                "key": "approvedBy",
+                "type": "varchar",
+                "required": false,
+                "size": 36
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "hostel_allocations",
+        "databaseId": "college-management",
+        "name": "Hostel Allocations",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "studentId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "roomNo",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            },
+            {
+                "key": "block",
+                "type": "varchar",
+                "required": true,
+                "size": 50
+            }
+        ],
+        "indexes": []
+    },
+    {
+        "$id": "transport_allocations",
+        "databaseId": "college-management",
+        "name": "Transport Allocations",
+        "enabled": true,
+        "rowSecurity": false,
+        "columns": [
+            {
+                "key": "studentId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "routeId",
+                "type": "varchar",
+                "required": true,
+                "size": 36
+            },
+            {
+                "key": "stopName",
+                "type": "varchar",
+                "required": true,
+                "size": 255
+            }
+        ],
+        "indexes": []
+    }
 ]

@@ -1,16 +1,16 @@
 export const environment = {
   production: false,
   auth: {
-    strategy: 'static',
+    strategy: 'appwrite',
   },
   appwrite: {
-    endpoint: 'https://cloud.appwrite.io/v1',
-    projectId: 'replace-with-dev-appwrite-project-id',
-    databaseId: 'college-management-dev',
+    endpoint: 'https://sgp.cloud.appwrite.io/v1',
+    projectId: '6a095234003402d1d270',
+    databaseId: 'college-management',
     buckets: {
-      media: 'media-dev',
-      avatars: 'avatars-dev',
-      documents: 'documents-dev',
+      media: 'media',
+      avatars: 'avatars',
+      documents: 'documents',
     },
     tables: {
       users: 'users',

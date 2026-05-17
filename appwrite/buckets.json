@@ -1,26 +1,37 @@
 [
-  {
-    "$id": "media",
-    "name": "Media",
-    "enabled": true,
-    "maximumFileSize": 10485760,
-    "allowedFileExtensions": [],
-    "fileSecurity": true
-  },
-  {
-    "$id": "avatars",
-    "name": "Avatars",
-    "enabled": true,
-    "maximumFileSize": 5242880,
-    "allowedFileExtensions": ["jpg", "jpeg", "png", "webp"],
-    "fileSecurity": true
-  },
-  {
-    "$id": "documents",
-    "name": "Documents",
-    "enabled": true,
-    "maximumFileSize": 20971520,
-    "allowedFileExtensions": ["pdf", "doc", "docx", "xls", "xlsx"],
-    "fileSecurity": true
-  }
+    {
+        "$id": "media",
+        "name": "Media",
+        "enabled": true,
+        "maximumFileSize": 10485760,
+        "allowedFileExtensions": [],
+        "fileSecurity": true
+    },
+    {
+        "$id": "avatars",
+        "name": "Avatars",
+        "enabled": true,
+        "maximumFileSize": 5242880,
+        "allowedFileExtensions": [
+            "jpg",
+            "jpeg",
+            "png",
+            "webp"
+        ],
+        "fileSecurity": true
+    },
+    {
+        "$id": "documents",
+        "name": "Documents",
+        "enabled": true,
+        "maximumFileSize": 20971520,
+        "allowedFileExtensions": [
+            "pdf",
+            "doc",
+            "docx",
+            "xls",
+            "xlsx"
+        ],
+        "fileSecurity": true
+    }
 ]

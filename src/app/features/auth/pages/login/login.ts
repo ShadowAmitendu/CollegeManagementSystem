@@ -2,13 +2,11 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
-import { type StaticUser } from '../../../../core/auth/static-users';
 import { Auth } from '../../../../core/services/auth';
-import { StaticAccountCard } from '../../components/static-account-card/static-account-card';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink, StaticAccountCard],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
@@ -18,7 +16,17 @@ export class Login {
   private readonly router = inject(Router);
   protected readonly auth = inject(Auth);
   protected readonly submitted = signal(false);
-  protected readonly developmentUsers = this.auth.staticUsers;
+
+  protected readonly testAccounts = [
+    { role: 'Admin', email: 'admin@college.local', password: 'password123' },
+    { role: 'Principal', email: 'principal@college.local', password: 'password123' },
+    { role: 'HOD', email: 'hod@college.local', password: 'password123' },
+    { role: 'Professor', email: 'professor@college.local', password: 'password123' },
+    { role: 'Student', email: 'student@college.local', password: 'password123' },
+    { role: 'CR', email: 'cr@college.local', password: 'password123' },
+    { role: 'Librarian', email: 'librarian@college.local', password: 'password123' },
+    { role: 'Staff', email: 'staff@college.local', password: 'password123' },
+  ];
 
   protected readonly form = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -42,16 +50,11 @@ export class Login {
     await this.router.navigateByUrl('/dashboard');
   }
 
-  protected useDevelopmentUser(user: StaticUser): void {
+  protected async fastLogin(account: { email: string; password: string }): Promise<void> {
     this.form.setValue({
-      email: user.email,
-      password: user.password,
+      email: account.email,
+      password: account.password,
     });
-    this.submitted.set(false);
-  }
-
-  protected async loginAsDevelopmentUser(user: StaticUser): Promise<void> {
-    this.auth.loginAsStaticUser(user);
-    await this.router.navigateByUrl('/dashboard');
+    await this.onSubmit();
   }
 }

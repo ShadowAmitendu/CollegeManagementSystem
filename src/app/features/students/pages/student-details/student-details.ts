@@ -20,6 +20,7 @@ export class StudentDetails {
 
   protected readonly student = computed(() => this.students.getStudent(this.route.snapshot.paramMap.get('id') ?? ''));
   protected readonly canEditStudent = computed(() => this.permissions.can('students.update'));
+  protected readonly canDeleteStudent = computed(() => this.permissions.hasAnyRole(['admin', 'principal', 'hod', 'professor']));
 
   protected editStudent(studentId: string): void {
     if (!this.canEditStudent()) {
@@ -27,5 +28,14 @@ export class StudentDetails {
     }
 
     void this.router.navigate(['/students', studentId, 'edit']);
+  }
+
+  protected deleteStudent(studentId: string): void {
+    if (!this.canDeleteStudent()) {
+      return;
+    }
+
+    this.students.deleteStudent(studentId);
+    void this.router.navigate(['/students']);
   }
 }

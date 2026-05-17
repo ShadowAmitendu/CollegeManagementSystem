@@ -107,4 +107,8 @@ export class Students {
       rows.map((student) => (student.$id === studentId ? { ...student, ...value, $updatedAt: new Date().toISOString() } : student)),
     );
   }
+
+  deleteStudent(studentId: string): void {
+    this.rowsSignal.update((rows) => rows.filter((student) => student.$id !== studentId));
+  }
 }
